@@ -135,3 +135,18 @@ export type Shop = {
   created_at: string;
   updated_at: string;
 };
+
+// Type for a single carousel item
+export interface CarouselItem {
+  id: number;
+  title: string;
+  caption: string | null;
+  image: string;
+  display_order: number;
+}
+
+// Type for the API response
+export interface CarouselResponse {
+  count: number;
+  data: CarouselItem[];
+}

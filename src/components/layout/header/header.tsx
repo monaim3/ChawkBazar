@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import SearchIcon from "@components/icons/search-icon";
 import { siteSettings } from "@settings/site-settings";
 import HeaderMenu from "@components/layout/header/header-menu";
@@ -9,6 +9,9 @@ import { useAddActiveScroll } from "@utils/use-add-active-scroll";
 import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
 import LanguageSwitcher from "@components/ui/language-switcher";
+import { FaRegUser } from "react-icons/fa";
+import { BiSolidPhoneCall } from "react-icons/bi";
+
 const AuthMenu = dynamic(() => import("./auth-menu"), { ssr: false });
 const CartButton = dynamic(() => import("@components/cart/cart-button"), {
   ssr: false,
@@ -20,7 +23,11 @@ const Header: React.FC = () => {
   const { t } = useTranslation("common");
   const siteHeaderRef = useRef<HTMLDivElement>(null);
   useAddActiveScroll(siteHeaderRef);
-
+  useEffect(() => {
+    // Call only once when component mounts
+    openSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   function handleLogin() {
     setModalView("LOGIN_VIEW");
     return openModal();
@@ -30,9 +37,9 @@ const Header: React.FC = () => {
     <header
       id="siteHeader"
       ref={siteHeaderRef}
-      className="container relative z-20 w-full h-16 sm:h-20 lg:h-24"
+      className="container relative z-20  h-16 sm:h-20 lg:h-24"
     >
-      <div className="container fixed z-20 w-full h-16 px-4 text-gray-700 transition duration-200 ease-in-out bg-white innerSticky body-font sm:h-20 lg:h-24 md:px-8 lg:px-6">
+      <div className=" z-20 h-16 px-4 text-gray-700 transition duration-200 ease-in-out bg-white innerSticky body-font sm:h-20 lg:h-24 md:px-8 lg:px-6">
         <div className="flex items-center justify-center mx-auto max-w-[1920px] h-full w-full">
 
           <button
@@ -40,7 +47,7 @@ const Header: React.FC = () => {
             onClick={openSearch}
             aria-label="search-button"
           >
-            <SearchIcon />
+            {/* <SearchIcon /> */}
           </button>
 
 
@@ -52,25 +59,27 @@ const Header: React.FC = () => {
             <Logo />
           </div>
           <div className="items-center justify-end flex-shrink-0 hidden lg:flex gap-x-6 lg:gap-x-5 xl:gap-x-8 2xl:gap-x-10 ltr:ml-auto rtl:mr-auto">
+            {/* Icons wrapper */}
+            <div className="flex items-center gap-x-6 lg:gap-x-5 xl:gap-x-8 2xl:gap-x-10">
+              {/* Call Icon */}
+              <BiSolidPhoneCall className="w-6 h-8" />
 
-            <div className="-mt-0.5 flex-shrink-0">
+              {/* User Icon */}
               <AuthMenu
                 isAuthorized={isAuthorized}
                 href={ROUTES.ACCOUNT}
-                className="text-sm font-semibold xl:text-base text-heading"
                 btnProps={{
-                  className:
-                    "text-sm xl:text-base text-heading font-semibold focus:outline-none",
-                  // @ts-ignore
-                  children: t("text-sign-in"),
+                  className: "focus:outline-none",
+                  children: <FaRegUser className="w-6 h-6" />,
                   onClick: handleLogin,
                 }}
-              >
-                {t("text-account")}
-              </AuthMenu>
+              />
+
+              {/* Cart Icon */}
+              <CartButton />
             </div>
-            <CartButton />
           </div>
+
         </div>
       </div>
 

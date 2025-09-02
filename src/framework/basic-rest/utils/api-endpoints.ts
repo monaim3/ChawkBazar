@@ -30,4 +30,5 @@ export const API_ENDPOINTS = {
   SEARCH: '/search.json',
   ORDERS: '/orders.json',
   ORDER: '/order.json',
+  CAROUSEL: '/carousel/homepage-carousel?orgID=52'
 };
