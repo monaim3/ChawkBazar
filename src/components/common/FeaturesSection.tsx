@@ -39,7 +39,7 @@ const FeaturesSection = () => {
                     {features.map((feature) => (
                         <div
                             key={feature.id}
-                            className="flex flex-col items-center text-center p-6  rounded-lg border border-gray-400 hover:shadow-md transition-shadow duration-300"
+                            className="flex flex-col items-center text-center p-3  rounded-lg border border-gray-400 hover:shadow-md transition-shadow duration-300"
                         >
                             <div className="mb-4">
                                 {feature.icon}

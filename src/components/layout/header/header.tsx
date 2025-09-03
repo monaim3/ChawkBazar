@@ -91,7 +91,7 @@ const Header: React.FC = () => {
                 <input
                   ref={searchInputRef}
                   id="search"
-                  className="w-[80%] h-10 pl-10 pr-4 text-sm text-gray-700 placeholder-gray-400 border-b-2 border-gray-300  focus:outline-none "
+                  className="w-[80%] h-10 pl-10 pr-4 text-sm text-gray-700 placeholder-gray-400 focus:border-b-2 border-gray-300  focus:outline-none "
                   placeholder={"Search for products..."}
                   aria-label="Search"
                   autoComplete="off"
