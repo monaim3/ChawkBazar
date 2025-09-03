@@ -1,4 +1,212 @@
-import React, { useEffect, useRef } from "react";
+// import React, { useEffect, useRef } from "react";
+// import SearchIcon from "@components/icons/search-icon";
+// import { siteSettings } from "@settings/site-settings";
+// import HeaderMenu from "@components/layout/header/header-menu";
+// import Logo from "@components/ui/logo";
+// import { useUI } from "@contexts/ui.context";
+// import { ROUTES } from "@utils/routes";
+// import { useAddActiveScroll } from "@utils/use-add-active-scroll";
+// import dynamic from "next/dynamic";
+// import { useTranslation } from "next-i18next";
+// import LanguageSwitcher from "@components/ui/language-switcher";
+// import { FaRegUser } from "react-icons/fa";
+// import { BiSolidPhoneCall } from "react-icons/bi";
+
+// const AuthMenu = dynamic(() => import("./auth-menu"), { ssr: false });
+// const CartButton = dynamic(() => import("@components/cart/cart-button"), {
+//   ssr: false,
+// });
+
+// const { site_header } = siteSettings;
+// const Header: React.FC = () => {
+//   const { openSearch, openModal, setModalView, isAuthorized } = useUI();
+//   const { t } = useTranslation("common");
+//   const siteHeaderRef = useRef<HTMLDivElement>(null);
+//   useAddActiveScroll(siteHeaderRef);
+//   useEffect(() => {
+//     // Call only once when component mounts
+//     openSearch();
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, []);
+//   function handleLogin() {
+//     setModalView("LOGIN_VIEW");
+//     return openModal();
+//   }
+
+//   return (
+//     <header
+//       id="siteHeader"
+//       ref={siteHeaderRef}
+//       className="container relative z-20  h-16 sm:h-20 lg:h-24"
+//     >
+//       <div className=" z-20 h-16 px-4 text-gray-700 transition duration-200 ease-in-out bg-white innerSticky body-font sm:h-20 lg:h-24 md:px-8 lg:px-6">
+//         <div className="flex items-center justify-center mx-auto max-w-[1920px] h-full w-full">
+
+//           <button
+//             className="relative flex items-center justify-center flex-shrink-0 h-auto transform focus:outline-none"
+//             onClick={openSearch}
+//             aria-label="search-button"
+//           >
+//             {/* <SearchIcon /> */}
+//           </button>
+
+
+
+//           {/* <div className="flex-shrink-0 ltr:ml-auto rtl:mr-auto ltr:lg:mr-5 rtl:lg:ml-5 ltr:xl:mr-8 rtl:xl:ml-8 ltr:2xl:mr-10 rtl:2xl:ml-10">
+//             <LanguageSwitcher />
+//           </div> */}
+//           <div className="flex-shrink-0 ltr:ml-auto rtl:mr-auto ltr:lg:mr-5 rtl:lg:ml-5 ltr:xl:mr-8 rtl:xl:ml-8 ltr:2xl:mr-10 rtl:2xl:ml-10">
+//             <Logo />
+//           </div>
+//           <div className="items-center justify-end flex-shrink-0 hidden lg:flex gap-x-6 lg:gap-x-5 xl:gap-x-8 2xl:gap-x-10 ltr:ml-auto rtl:mr-auto">
+//             {/* Icons wrapper */}
+//             <div className="flex items-center gap-x-6 lg:gap-x-5 xl:gap-x-8 2xl:gap-x-10">
+//               {/* Call Icon */}
+//               <BiSolidPhoneCall className="w-6 h-8" />
+
+//               {/* User Icon */}
+//               <AuthMenu
+//                 isAuthorized={isAuthorized}
+//                 href={ROUTES.ACCOUNT}
+//                 btnProps={{
+//                   className: "focus:outline-none",
+//                   children: <FaRegUser className="w-6 h-6" />,
+//                   onClick: handleLogin,
+//                 }}
+//               />
+
+//               {/* Cart Icon */}
+//               <CartButton />
+//             </div>
+//           </div>
+
+//         </div>
+//         <HeaderMenu
+//           data={site_header.menu}
+//           className="hidden lg:flex ltr:md:ml-6 rtl:md:mr-6 ltr:xl:ml-10 rtl:xl:mr-10"
+//         />
+//       </div>
+
+
+
+
+//     </header>
+//   );
+// };
+
+// export default Header;
+
+
+
+// import React, { useEffect, useRef } from "react";
+// import SearchIcon from "@components/icons/search-icon";
+// import { siteSettings } from "@settings/site-settings";
+// import HeaderMenu from "@components/layout/header/header-menu";
+// import Logo from "@components/ui/logo";
+// import { useUI } from "@contexts/ui.context";
+// import { ROUTES } from "@utils/routes";
+// import { useAddActiveScroll } from "@utils/use-add-active-scroll";
+// import dynamic from "next/dynamic";
+// import { useTranslation } from "next-i18next";
+// import LanguageSwitcher from "@components/ui/language-switcher";
+// import { FaRegUser } from "react-icons/fa";
+// import { BiSolidPhoneCall } from "react-icons/bi";
+
+// const AuthMenu = dynamic(() => import("./auth-menu"), { ssr: false });
+// const CartButton = dynamic(() => import("@components/cart/cart-button"), {
+//   ssr: false,
+// });
+
+// const { site_header } = siteSettings;
+
+// const Header: React.FC = () => {
+//   const { openSearch, openModal, setModalView, isAuthorized } = useUI();
+//   const { t } = useTranslation("common");
+//   const siteHeaderRef = useRef<HTMLDivElement>(null);
+//   useAddActiveScroll(siteHeaderRef);
+
+//   useEffect(() => {
+//     // Call only once when component mounts
+//     openSearch();
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, []);
+
+//   function handleLogin() {
+//     setModalView("LOGIN_VIEW");
+//     return openModal();
+//   }
+
+//   return (
+//     <header
+//       id="siteHeader"
+//       ref={siteHeaderRef}
+//       className="relative z-20 bg-white border-b border-gray-200"
+//     >
+//       {/* Top Header Bar */}
+//       <div className="container mx-auto px-4 md:px-8 lg:px-6">
+//         <div className="flex items-center justify-between h-16 sm:h-20 lg:h-24 max-w-[1920px] mx-auto">
+
+//           {/* Left Side - Search Icon */}
+//           <div className="flex items-center">
+//             <button
+//               className="flex items-center justify-center p-2 hover:bg-gray-50 rounded-md transition-colors duration-200 focus:outline-none"
+//               onClick={openSearch}
+//               aria-label="search-button"
+//             >
+//               <SearchIcon className="w-5 h-5 text-gray-600" />
+//             </button>
+//           </div>
+
+//           {/* Center - Logo */}
+//           <div className="flex-1 flex justify-center">
+//             <Logo />
+//           </div>
+
+//           {/* Right Side - Icons */}
+//           <div className="flex items-center gap-4 lg:gap-6">
+//             {/* Phone Icon */}
+//             <button className="flex items-center justify-center p-2 hover:bg-gray-50 rounded-md transition-colors duration-200 focus:outline-none">
+//               <BiSolidPhoneCall className="w-5 h-5 text-gray-600" />
+//             </button>
+
+//             {/* Shopping Bag Count */}
+//             <div className="relative">
+//               <CartButton />
+//             </div>
+
+//             {/* User Account */}
+//             <AuthMenu
+//               isAuthorized={isAuthorized}
+//               href={ROUTES.ACCOUNT}
+//               btnProps={{
+//                 className: "flex items-center justify-center p-2 hover:bg-gray-50 rounded-md transition-colors duration-200 focus:outline-none",
+//                 children: <FaRegUser className="w-5 h-5 text-gray-600" />,
+//                 onClick: handleLogin,
+//               }}
+//             />
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Bottom Navigation Menu */}
+//       <div className="border-t border-gray-100 bg-white">
+//         <div className="container mx-auto px-4 md:px-8 lg:px-6">
+//           <HeaderMenu
+//             data={site_header.menu}
+//             className="flex justify-center items-center h-12 lg:h-14"
+//           />
+//         </div>
+//       </div>
+//     </header>
+//   );
+// };
+
+// export default Header;
+
+
+
+
+import React, { useEffect, useRef, useState } from "react";
 import SearchIcon from "@components/icons/search-icon";
 import { siteSettings } from "@settings/site-settings";
 import HeaderMenu from "@components/layout/header/header-menu";
@@ -8,9 +216,12 @@ import { ROUTES } from "@utils/routes";
 import { useAddActiveScroll } from "@utils/use-add-active-scroll";
 import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
-import LanguageSwitcher from "@components/ui/language-switcher";
 import { FaRegUser } from "react-icons/fa";
 import { BiSolidPhoneCall } from "react-icons/bi";
+import { useSearchQuery } from "@framework/product/use-search";
+import SearchProduct from "@components/common/search-product";
+import Scrollbar from "@components/common/scrollbar";
+import SearchResultLoader from "@components/ui/loaders/search-result-loader";
 
 const AuthMenu = dynamic(() => import("./auth-menu"), { ssr: false });
 const CartButton = dynamic(() => import("@components/cart/cart-button"), {
@@ -18,75 +229,168 @@ const CartButton = dynamic(() => import("@components/cart/cart-button"), {
 });
 
 const { site_header } = siteSettings;
+
 const Header: React.FC = () => {
-  const { openSearch, openModal, setModalView, isAuthorized } = useUI();
+  const { openModal, setModalView, isAuthorized } = useUI();
   const { t } = useTranslation("common");
+  const [searchText, setSearchText] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const siteHeaderRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
   useAddActiveScroll(siteHeaderRef);
-  useEffect(() => {
-    // Call only once when component mounts
-    openSearch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+  const { data: searchResults, isLoading } = useSearchQuery({
+    text: searchText,
+  });
+
   function handleLogin() {
     setModalView("LOGIN_VIEW");
     return openModal();
+  }
+
+  function handleSearchChange(e: React.FormEvent<HTMLInputElement>) {
+    setSearchText(e.currentTarget.value);
+  }
+
+  function handleSearchSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    // Handle search submission
+    console.log("Search submitted:", searchText);
+  }
+
+  function clearSearch() {
+    setSearchText("");
+    setIsSearchFocused(false);
+  }
+
+  function handleSearchFocus() {
+    setIsSearchFocused(true);
+  }
+
+  function handleSearchBlur() {
+    // Delay hiding results to allow clicking on them
+    setTimeout(() => {
+      setIsSearchFocused(false);
+    }, 200);
   }
 
   return (
     <header
       id="siteHeader"
       ref={siteHeaderRef}
-      className="container relative z-20  h-16 sm:h-20 lg:h-24"
+      className="relative z-20 bg-white border-b border-gray-200"
     >
-      <div className=" z-20 h-16 px-4 text-gray-700 transition duration-200 ease-in-out bg-white innerSticky body-font sm:h-20 lg:h-24 md:px-8 lg:px-6">
-        <div className="flex items-center justify-center mx-auto max-w-[1920px] h-full w-full">
+      {/* Top Header Bar */}
+      <div className="container mx-auto px-4 md:px-8 lg:px-6">
+        <div className="flex items-center justify-between h-16 sm:h-20 lg:h-24 max-w-[1920px] mx-auto">
 
-          <button
-            className="relative flex items-center justify-center flex-shrink-0 h-auto transform focus:outline-none"
-            onClick={openSearch}
-            aria-label="search-button"
-          >
-            {/* <SearchIcon /> */}
-          </button>
+          {/* Left Side - Search Bar */}
+          <div className="flex-1 max-w-md relative">
+            <form
+              className="relative w-full"
+              noValidate
+              role="search"
+              onSubmit={handleSearchSubmit}
+            >
+              <div className="relative flex items-center">
 
+                <input
+                  ref={searchInputRef}
+                  id="search"
+                  className="w-[80%] h-10 pl-10 pr-4 text-sm text-gray-700 placeholder-gray-400 border-b-2 border-gray-300  focus:outline-none "
+                  placeholder={"Search for products..."}
+                  aria-label="Search"
+                  autoComplete="off"
+                  value={searchText}
+                  onChange={handleSearchChange}
+                  onFocus={handleSearchFocus}
+                  onBlur={handleSearchBlur}
+                />
+                <span className="absolute left-3 flex items-center justify-center text-gray-400 z-10">
+                  <SearchIcon className="w-4 h-4" />
+                </span>
+              </div>
+            </form>
 
+            {/* Search Results Dropdown */}
+            {(isSearchFocused && searchText) && (
+              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-96 overflow-hidden z-50">
+                <Scrollbar className="max-h-96">
+                  <div>
+                    {isLoading ? (
+                      <div className="p-4">
+                        {Array.from({ length: 3 }).map((_, idx) => (
+                          <SearchResultLoader
+                            key={idx}
+                            uniqueKey={`search-loader-${idx}`}
+                          />
+                        ))}
+                      </div>
+                    ) : searchResults && searchResults.length > 0 ? (
+                      searchResults.map((item: any, index: number) => (
+                        <div
+                          key={item.id || index}
+                          className="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer last:border-b-0"
+                          onClick={() => {
+                            clearSearch();
+                            // Handle product click
+                          }}
+                        >
+                          <SearchProduct item={item} />
+                        </div>
+                      ))
+                    ) : (
+                      <div className="p-4 text-gray-500 text-sm">
+                        No results found for "{searchText}"
+                      </div>
+                    )}
+                  </div>
+                </Scrollbar>
+              </div>
+            )}
+          </div>
 
-          {/* <div className="flex-shrink-0 ltr:ml-auto rtl:mr-auto ltr:lg:mr-5 rtl:lg:ml-5 ltr:xl:mr-8 rtl:xl:ml-8 ltr:2xl:mr-10 rtl:2xl:ml-10">
-            <LanguageSwitcher />
-          </div> */}
-          <div className="flex-shrink-0 ltr:ml-auto rtl:mr-auto ltr:lg:mr-5 rtl:lg:ml-5 ltr:xl:mr-8 rtl:xl:ml-8 ltr:2xl:mr-10 rtl:2xl:ml-10">
+          {/* Center - Logo */}
+          <div className="flex-1 flex justify-center mx-8">
             <Logo />
           </div>
-          <div className="items-center justify-end flex-shrink-0 hidden lg:flex gap-x-6 lg:gap-x-5 xl:gap-x-8 2xl:gap-x-10 ltr:ml-auto rtl:mr-auto">
-            {/* Icons wrapper */}
-            <div className="flex items-center gap-x-6 lg:gap-x-5 xl:gap-x-8 2xl:gap-x-10">
-              {/* Call Icon */}
-              <BiSolidPhoneCall className="w-6 h-8" />
 
-              {/* User Icon */}
-              <AuthMenu
-                isAuthorized={isAuthorized}
-                href={ROUTES.ACCOUNT}
-                btnProps={{
-                  className: "focus:outline-none",
-                  children: <FaRegUser className="w-6 h-6" />,
-                  onClick: handleLogin,
-                }}
-              />
+          {/* Right Side - Icons */}
+          <div className="flex items-center gap-4 lg:gap-6 flex-1 justify-end">
+            {/* Phone Icon */}
+            <button className="flex items-center justify-center p-2 hover:bg-gray-50 rounded-md transition-colors duration-200 focus:outline-none">
+              <BiSolidPhoneCall className="w-5 h-5 text-gray-600" />
+            </button>
 
-              {/* Cart Icon */}
+            {/* Shopping Bag Count */}
+            <div className="relative">
               <CartButton />
             </div>
-          </div>
 
+            {/* User Account */}
+            <AuthMenu
+              isAuthorized={isAuthorized}
+              href={ROUTES.ACCOUNT}
+              btnProps={{
+                className: "flex items-center justify-center p-2 hover:bg-gray-50 rounded-md transition-colors duration-200 focus:outline-none",
+                children: <FaRegUser className="w-5 h-5 text-gray-600" />,
+                onClick: handleLogin,
+              }}
+            />
+          </div>
         </div>
       </div>
 
-      {/* <HeaderMenu
+      {/* Bottom Navigation Menu */}
+      <div className="border-t border-gray-100 bg-white">
+        <div className="container mx-auto px-4 md:px-8 lg:px-6">
+          <HeaderMenu
             data={site_header.menu}
-            className="hidden lg:flex ltr:md:ml-6 rtl:md:mr-6 ltr:xl:ml-10 rtl:xl:mr-10"
-          /> */}
+            className="flex justify-center items-center h-12 lg:h-14"
+          />
+        </div>
+      </div>
     </header>
   );
 };

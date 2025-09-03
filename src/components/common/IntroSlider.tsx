@@ -1,101 +1,77 @@
 "use client";
 
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay, EffectFade } from "swiper/modules";
-import { useSelector } from "react-redux";
+import { Autoplay, Pagination, EffectFade } from "swiper/modules";
+import http from "@framework/utils/http";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade";
 
-// ** Import Iocns
-import { HiChevronRight } from "react-icons/hi2";
-import { useCarouselQuery } from "@framework/slider/sliderApi";
+interface SlideItem {
+    id: number;
+    title: string;
+    caption?: string | null;
+    image: string;
+    display_order: number;
+}
 
-const IntroSlider = () => {
-    const { data, isLoading } = useCarouselQuery({});
-    if (isLoading) return <p>Loading...</p>;
+export default function CarouselSlider() {
+    const [slides, setSlides] = useState<SlideItem[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    //   return (
-    //     <>
-    //       <Swiper
-    //         modules={[Pagination, Autoplay, EffectFade]}
-    //         slidesPerView={1}
-    //         spaceBetween={0}
-    //         loop={true}
-    //         pagination={{ clickable: true }}
-    //         className="hero-slider"
-    //         autoplay={{ delay: 3000 }}
-    //         effect="fade"
-    //         speed={1200}
-    //       >
-    //         {sliders.map((slide, i) => (
-    //           <SwiperSlide key={i}>
-    //             <div
-    //               className={`relative single-hero-slider bg-top px-3 lg:px-12 md:py-10 text-center flex justify-center items-center ${
-    //                 settings?.offer_massage
-    //                   ? "h-[203px] md:h-[353px] lg:h-[85vh]"
-    //                   : "h-[213px] md:h-[363px] lg:h-[88vh]"
-    //               } bg-no-repeat bg-cover bg-center`}
-    //               style={{
-    //                 backgroundImage: slide?.image
-    //                   ? `url(${slide?.image})`
-    //                   : `/assets/images/banner/banner-1.png`,
-    //               }}
-    //             >
-    //               <div className="">
-    //                 <div
-    //                   className={cn(
-    //                     "hero-slider-content p-4 lg:px-12 py-6"
-    //                     // isBackdrop(slide) ? "backdrop-blur-sm" : ""
-    //                   )}
-    //                   style={{
-    //                     // backgroundColor: settings?.colors?.primary,
-    //                     // color: settings?.colors?.default_text,
-    //                     color: settings?.colors?.primary_text,
-    //                   }}
-    //                 >
-    //                   {slide?.title && (
-    //                     <p className="text-sm lg:text-lg/[24px] font-normal font-body lg:mb-4">
-    //                       {slide?.title}
-    //                     </p>
-    //                   )}
-    //                   {slide?.title_2 && (
-    //                     <h1 className="text-xl lg:text-5xl font-bold font-title">
-    //                       {slide?.title_2}
-    //                     </h1>
-    //                   )}
-    //                   {slide?.text && (
-    //                     <h2 className="text-lg lg:text-4xl/[48px] font-bold font-title mb-2 lg:my-5">
-    //                       {slide?.text}
-    //                     </h2>
-    //                   )}
-    //                   {/* {slide?.url && (
-    //                     <Link
-    //                       href={slide?.url}
-    //                       className="inline-block px-4 text-center leading-[40px] rounded-lg"
-    //                       style={{
-    //                         backgroundColor: settings?.colors?.primary,
-    //                         color: settings?.colors?.primary_text,
-    //                       }}
-    //                     >
-    //                       {translations["shop-now"] || "Shop Now"}
-    //                     </Link>
-    //                   )} */}
-    //                 </div>
-    //               </div>
-    //               {slide.url && (
-    //                 <Link
-    //                   href={slide?.url}
-    //                   className="absolute h-full w-full flex items-center justify-center"
-    //                 ></Link>
-    //               )}
-    //             </div>
-    //           </SwiperSlide>
-    //         ))}
-    //       </Swiper>
-    //     </>
-    //   );
+    useEffect(() => {
+        const fetchSlides = async () => {
+            try {
+                setLoading(true);
+                const res = await http.get(
+                    "https://app.cirqlsync.com/syncing-application/syncapi/carousel/homepage-carousel?orgID=52"
+                );
+                setSlides(res.data?.data || []);
+            } catch (err: any) {
+                setError(err.message || "Something went wrong");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchSlides();
+    }, []);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
+
     return (
-        <h2>Works</h2>
-    )
-};
-
-export default IntroSlider;
+        <Swiper
+            modules={[Pagination, Autoplay, EffectFade]}
+            slidesPerView={1}
+            loop={true}
+            autoplay={{ delay: 3000 }}
+            pagination={{ clickable: true }}
+            effect="fade"
+            speed={1200}
+            className="w-full h-[400px] md:h-[600px] lg:h-[80vh]"
+        >
+            {slides.map((slide) => (
+                <SwiperSlide key={slide.id}>
+                    <div
+                        className="w-full h-full flex items-center justify-center bg-cover bg-center"
+                        style={{ backgroundImage: `url(${slide.image})` }}
+                    >
+                        {/* <div className="bg-black bg-opacity-40 p-4 rounded">
+                            {slide.title && (
+                                <h2 className="text-white text-xl md:text-3xl font-bold">
+                                    {slide.title}
+                                </h2>
+                            )}
+                            {slide.caption && (
+                                <p className="text-white text-sm md:text-lg">{slide.caption}</p>
+                            )}
+                        </div> */}
+                    </div>
+                </SwiperSlide>
+            ))}
+        </Swiper>
+    );
+}

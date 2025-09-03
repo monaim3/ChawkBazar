@@ -23,7 +23,7 @@ const initialState = {
   displayModal: false,
   displayShop: false,
   displayCart: false,
-  displaySearch: true,
+  displaySearch: false,
   modalView: "LOGIN_VIEW",
   drawerView: null,
   modalData: null,
@@ -148,7 +148,7 @@ function uiReducer(state: State, action: Action) {
     case "OPEN_SEARCH": {
       return {
         ...state,
-        displaySearch: true,
+        displaySearch: false,
       };
     }
     case "CLOSE_SEARCH": {

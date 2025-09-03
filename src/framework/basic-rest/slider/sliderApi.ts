@@ -4,14 +4,16 @@ import { API_ENDPOINTS } from "@framework/utils/api-endpoints";
 import { useQuery } from "@tanstack/react-query";
 
 export const fetchSlider = async () => {
-    const {
-        data: { data },
-    } = await http.get(API_ENDPOINTS.CAROUSEL);
-    return { collections: { data: data.data as any[] } };
+    const response = await http.get(API_ENDPOINTS.CAROUSEL);
+
+    // response.data = { count: 4, data: [ ... ] }
+    return { collections: { data: response.data.data } };
 };
-export const useCarouselQuery = (options: CarouselResponse) => {
+
+// ✅ Hook
+export const useCarouselQuery = (options?: CarouselResponse) => {
     return useQuery<{ collections: { data: any[] } }, Error>({
         queryKey: [API_ENDPOINTS.CAROUSEL, options],
-        queryFn: fetchSlider
+        queryFn: fetchSlider,
     });
 };

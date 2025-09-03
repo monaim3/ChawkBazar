@@ -10,6 +10,17 @@ const withPWA = nextPWA({
 
 export default withPWA({
   i18n,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "static.bitcommerz.com",
+        pathname: "/**",
+      },
+    ],
+    // If you're on an older Next.js version, you can just use:
+    // domains: ["static.bitcommerz.com"],
+  },
   typescript: {
     ignoreBuildErrors: true,
   },

@@ -20,14 +20,20 @@ import { homeThreeMasonryBanner as masonryBanner } from "@framework/static/banne
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ROUTES } from "@utils/routes";
 import { GetStaticProps } from "next";
+import IntroSlider from "@components/common/IntroSlider";
+import FeaturesSection from "@components/common/FeaturesSection";
+import CategoriesSection from "@components/common/CategoriesSection";
 
 export default function Home() {
   return (
     <>
-      <BannerBlock data={masonryBanner} />
-      <Container>
+      <IntroSlider></IntroSlider>
+      <FeaturesSection></FeaturesSection>
+      {/* <BannerBlock data={masonryBanner} /> */}
+      <CategoriesSection></CategoriesSection>
+      {/* <Container>
         <ProductsFlashSaleBlock date={"2025-12-01T01:02:03"} />
-      </Container>
+      </Container> */}
       <BannerSliderBlock />
       <Container>
         <CategoryBlock
