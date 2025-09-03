@@ -14,7 +14,7 @@ export default withPWA({
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "static.bitcommerz.com",
+        hostname: "app.cirqlsync.com",
         pathname: "/**",
       },
     ],

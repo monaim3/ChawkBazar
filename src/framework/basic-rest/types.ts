@@ -45,16 +45,7 @@ export type Attachment = {
   thumbnail: string;
   original: string;
 };
-export type Category = {
-  id: number | string;
-  name: string;
-  slug: string;
-  details?: string;
-  image?: Attachment;
-  icon?: string;
-  products?: Product[];
-  productCount?: number;
-};
+
 export type Collection = {
   id: number | string;
   name: string;
@@ -149,4 +140,28 @@ export interface CarouselItem {
 export interface CarouselResponse {
   count: number;
   data: CarouselItem[];
+}
+
+
+// types/category.ts
+export interface SubCategory {
+  id: number;
+  name: string;
+  slug: string;
+  productCount: number;
+  icon: string | null;
+  tags: string[];
+  image: string;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  productCount: number;
+  icon: string | null;
+  tags: string[];
+  image: string;
+  videoUrl: string;
+  subCategories: SubCategory[] | null;
 }

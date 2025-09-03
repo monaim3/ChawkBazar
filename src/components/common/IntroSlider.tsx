@@ -7,6 +7,7 @@ import http from "@framework/utils/http";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
+import Loading from "./Loading";
 
 interface SlideItem {
     id: number;
@@ -39,7 +40,7 @@ export default function CarouselSlider() {
         fetchSlides();
     }, []);
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <Loading></Loading>;
     if (error) return <p>Error: {error}</p>;
 
     return (
