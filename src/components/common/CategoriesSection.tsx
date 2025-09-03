@@ -187,6 +187,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Category } from "@framework/types";
 import { useCategories } from "@framework/newCategories";
+import Loading from "./Loading";
 
 const CategoriesSection: React.FC = () => {
   const { data: categories = [], isLoading } = useCategories();
@@ -236,7 +237,7 @@ const CategoriesSection: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="py-8 text-center text-lg text-gray-600">Loading...</div>
+      <Loading></Loading>
     );
   }
 
