@@ -135,7 +135,7 @@ const Header: React.FC = () => {
                       ))
                     ) : (
                       <div className="p-4 text-gray-500 text-sm">
-                        No results found for "{searchText}"
+                        {`No results found for "${searchText}"`}
                       </div>
                     )}
                   </div>
