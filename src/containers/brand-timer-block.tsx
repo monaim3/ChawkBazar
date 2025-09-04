@@ -9,11 +9,8 @@ import { useTranslation } from "next-i18next";
 import Link from "@components/ui/link";
 import dynamic from "next/dynamic";
 
-const Countdown = dynamic(
-  // @ts-ignore
-  () => import("react-countdown").then((mod) => mod.default),
-  { ssr: false }
-);
+const Countdown = dynamic(() => import('react-countdown'), { ssr: false });
+
 
 interface BrandProps {
   sectionHeading: string;
@@ -126,22 +123,22 @@ const BrandTimerBlock: React.FC<BrandProps> = ({
         >
           {isLoading && !data
             ? Array.from({ length: 10 }).map((_, idx) => (
-                <SwiperSlide key={idx}>
-                  <CardRoundedLoader uniqueKey={`category-${idx}`} />
-                </SwiperSlide>
-              ))
+              <SwiperSlide key={idx}>
+                <CardRoundedLoader uniqueKey={`category-${idx}`} />
+              </SwiperSlide>
+            ))
             : brands?.map((brand: Brand) => (
-                <SwiperSlide key={`brand--key${brand.id}`}>
-                  <Link href={`/search?q=${brand.slug}`}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={brand?.image?.original}
-                      alt="brand"
-                      className="w-[196px]"
-                    />
-                  </Link>
-                </SwiperSlide>
-              ))}
+              <SwiperSlide key={`brand--key${brand.id}`}>
+                <Link href={`/search?q=${brand.slug}`}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={brand?.image?.original}
+                    alt="brand"
+                    className="w-[196px]"
+                  />
+                </Link>
+              </SwiperSlide>
+            ))}
         </Carousel>
       )}
     </div>

@@ -165,3 +165,18 @@ export interface Category {
   videoUrl: string;
   subCategories: SubCategory[] | null;
 }
+
+export interface NewArrival {
+  id: number;
+  name: string;
+  description?: string;
+  image: string;
+  basePrice: string;
+  finalPrice: string;
+  category: { id: number; name: string };
+  gallery: { image: string; colorCode: string }[];
+  variations: {
+    colors?: { id: number; colorCode: string; value: string }[];
+    sizes?: { id: number; value: string }[];
+  };
+}
