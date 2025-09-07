@@ -23,7 +23,8 @@ import { GetStaticProps } from "next";
 import IntroSlider from "@components/common/IntroSlider";
 import FeaturesSection from "@components/common/FeaturesSection";
 import CategoriesSection from "@components/common/CategoriesSection";
-import NewArrivalProduct from "@components/product/new-arrival";
+import NewArrivalSection from "@components/product/new-arrival";
+import BestSelling from "@components/product/best-selling";
 
 export default function Home() {
   return (
@@ -35,7 +36,8 @@ export default function Home() {
       {/* <Container>
         <ProductsFlashSaleBlock date={"2025-12-01T01:02:03"} />
       </Container> */}
-      <NewArrivalProduct />
+      <NewArrivalSection />
+      <BestSelling />
       <BannerSliderBlock />
       <Container>
         <CategoryBlock
