@@ -53,7 +53,6 @@ const StyledProductCard = ({ product }: { product: GenericProduct }) => {
         : 0;
 
     const openQuickView = () => {
-        console.log("product", product);
         setModalData({ data: product as unknown as Product });
         setModalView("PRODUCT_VIEW");
         openModal();

@@ -201,7 +201,6 @@ export default function ProductPopup() {
     closeModal,
     openCart,
   } = useUI();
-  console.log("modalData", data);
   const router = useRouter();
   const { addItemToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
@@ -261,6 +260,7 @@ export default function ProductPopup() {
     }, 600);
 
     const item = generateCartItem(data!, attributes);
+    console.log("modalitems", item);
     addItemToCart(item, quantity);
   }
   function navigateToProductPage() {

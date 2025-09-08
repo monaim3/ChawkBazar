@@ -25,6 +25,7 @@ import FeaturesSection from "@components/common/FeaturesSection";
 import CategoriesSection from "@components/common/CategoriesSection";
 import NewArrivalSection from "@components/product/new-arrival";
 import BestSelling from "@components/product/best-selling";
+import CartTray from "@components/common/cartTray";
 
 export default function Home() {
   return (
@@ -38,6 +39,7 @@ export default function Home() {
       </Container> */}
       <NewArrivalSection />
       <BestSelling />
+      <CartTray />
       <BannerSliderBlock />
       <Container>
         <CategoryBlock

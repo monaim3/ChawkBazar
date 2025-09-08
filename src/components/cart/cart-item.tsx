@@ -25,7 +25,6 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     amount: item.itemTotal,
     currencyCode: 'USD',
   });
-
   return (
     <motion.div
       layout

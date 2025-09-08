@@ -4,8 +4,7 @@ import { useUI } from '@contexts/ui.context';
 
 export default function CartButton() {
   const { openCart } = useUI();
-  const { totalItems } = useCart();
-  function handleCartOpen() {
+  const { totalItems } = useCart(); function handleCartOpen() {
     return openCart();
   }
   return (
