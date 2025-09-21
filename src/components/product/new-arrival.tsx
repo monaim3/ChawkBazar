@@ -284,9 +284,19 @@
 // }
 
 
+
 "use client";
 
-import { GenericCarousel, GenericProduct } from "@components/common/generic-carousel";
+import dynamic from "next/dynamic";
+import type { GenericProduct } from "@components/common/generic-carousel";
+
+const GenericCarousel = dynamic(
+    () =>
+        import("@components/common/generic-carousel").then(
+            (mod) => mod.GenericCarousel
+        ),
+    { ssr: false }
+);
 
 export default function NewArrivalSection() {
     // Fetcher function inside the component
@@ -306,6 +316,5 @@ export default function NewArrivalSection() {
         />
     );
 }
-
 
 

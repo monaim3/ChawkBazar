@@ -176,8 +176,8 @@ const Header: React.FC = () => {
       </div>
 
       {/* Bottom Navigation Menu */}
-      <div className="border-t border-gray-100 bg-white">
-        <div className="container mx-auto px-4 md:px-8 lg:px-6">
+      <div className="border-t border-gray-100 bg-white hidden lg:block">
+        <div className="container mx-auto px-4 md:px-8 lg:px-6 ">
           <HeaderMenu
             data={site_header.menu}
             className="flex justify-center items-center h-12 lg:h-14"

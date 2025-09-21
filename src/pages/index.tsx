@@ -26,6 +26,8 @@ import CategoriesSection from "@components/common/CategoriesSection";
 import NewArrivalSection from "@components/product/new-arrival";
 import BestSelling from "@components/product/best-selling";
 import CartTray from "@components/common/cartTray";
+import VideoSection from "@components/common/video-section";
+import FeatureBanner from "@components/common/feature-banner";
 
 export default function Home() {
   return (
@@ -40,9 +42,11 @@ export default function Home() {
       <NewArrivalSection />
       <BestSelling />
       <CartTray />
-      <BannerSliderBlock />
+      <VideoSection />
+      <FeatureBanner />
+      {/* <BannerSliderBlock /> */}
       <Container>
-        <CategoryBlock
+        {/* <CategoryBlock
           sectionHeading="text-shop-by-category"
           type="rounded"
         />
@@ -55,8 +59,8 @@ export default function Home() {
           banner={banner[0]}
           href={`${ROUTES.COLLECTIONS}/${banner[0].slug}`}
           className="mb-12 lg:mb-14 xl:mb-16 pb-0.5 lg:pb-1 xl:pb-0"
-        />
-        <BrandGridBlock sectionHeading="text-top-brands" />
+        /> */}
+        {/* <BrandGridBlock sectionHeading="text-top-brands" /> */}
         <BannerCard
           key={`banner--key${banner[1].id}`}
           banner={banner[1]}
@@ -68,10 +72,10 @@ export default function Home() {
           categorySlug="/search"
         />
         <ExclusiveBlock />
-        <NewArrivalsProductFeed />
-        <DownloadApps />
-        <Support />
-        <Instagram />
+        {/* <NewArrivalsProductFeed /> */}
+        {/* <DownloadApps /> */}
+        {/* <Support /> */}
+        {/* <Instagram /> */}
         <Subscription className="px-5 py-12 bg-opacity-0 sm:px-16 xl:px-0 md:py-14 xl:py-16" />
       </Container>
       <Divider className="mb-0" />

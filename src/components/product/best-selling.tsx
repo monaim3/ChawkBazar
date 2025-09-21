@@ -1,8 +1,15 @@
 
 "use client";
 
-import { GenericCarousel, GenericProduct } from "@components/common/generic-carousel";
-
+import { GenericProduct } from "@components/common/generic-carousel";
+import dynamic from "next/dynamic";
+const GenericCarousel = dynamic(
+    () =>
+        import("@components/common/generic-carousel").then(
+            (mod) => mod.GenericCarousel
+        ),
+    { ssr: false }
+);
 export default function BestSelling() {
     // Fetcher function inside the component
     const fetchSelling = async (): Promise<GenericProduct[]> => {

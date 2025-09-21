@@ -142,7 +142,7 @@
 // export default CategoriesSection;
 
 
-
+"use client";
 import React, { useState, useRef, useEffect } from "react";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import Image from "next/image";
@@ -249,8 +249,8 @@ const CategoriesSection: React.FC = () => {
             <div
               ref={carouselRef}
               className={`flex ${isTransitioning
-                  ? "transition-transform duration-500 ease-in-out"
-                  : ""
+                ? "transition-transform duration-500 ease-in-out"
+                : ""
                 }`}
               style={{
                 transform: `translateX(-${translateX}%)`,
