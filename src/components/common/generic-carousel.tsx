@@ -175,7 +175,7 @@ export const GenericCarousel = ({
                         slidesPerView={1}
                         breakpoints={swiperBreakpoints}
                     >
-                        {products.map((product) => (
+                        {products?.map((product) => (
                             <SwiperSlide key={product.id}>
                                 <StyledProductCard product={product} />
                             </SwiperSlide>
