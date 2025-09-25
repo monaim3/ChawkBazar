@@ -262,12 +262,13 @@ const CategoriesSection: React.FC = () => {
                   className="flex-shrink-0 px-2 md:px-3"
                   style={{ width: `${100 / itemsPerView}%` }}
                 >
-                  <Link href={`/category/${category.slug}`}>
+                  <Link
+                    href={category.id ? `/search?category=${category?.name?.toLocaleLowerCase()}` : "/"}>
                     <div className="group relative overflow-hidden rounded-xl shadow-lg cursor-pointer transition-transform duration-300 hover:scale-105">
                       <div className="aspect-[5/5] relative overflow-hidden">
                         <Image
                           src={category.image}
-                          alt={category.name}
+                          alt={category?.name}
                           fill
                           className="object-cover"
                           loading="lazy"

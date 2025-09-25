@@ -69,25 +69,6 @@ export type Tag = {
   name: string;
   slug: string;
 };
-export type Product = {
-  id: number | string;
-  name: string;
-  slug: string;
-  price: number;
-  quantity: number;
-  sale_price?: number;
-  image: Attachment;
-  sku?: string;
-  gallery?: Attachment[];
-  category?: Category;
-  tag?: Tag[];
-  tags?: Tag[];
-  meta?: any[];
-  description?: string;
-  variations?: object;
-  [key: string]: unknown;
-  isNewArrival?: boolean;
-};
 export type OrderItem = {
   id: number | string;
   name: string;
@@ -180,3 +161,47 @@ export interface NewArrival {
     sizes?: { id: number; value: string }[];
   };
 }
+
+
+export type Product = {
+  id: number;
+  name: string;
+  description: string | null;
+  image: string;
+  basePrice: string;
+  finalPrice: string;
+  category: {
+    id: number;
+    name: string;
+  };
+  gallery: {
+    image: string;
+    colorCode: string;
+  }[];
+  variations: {
+    colors: {
+      id: number;
+      colorCode: string;
+      value: string;
+    }[];
+    sizes: {
+      id: number;
+      value: string;
+    }[];
+  };
+};
+
+export type ProductResponse = {
+  data: Product[];
+  pagination: {
+    offset: number;
+    limit: number;
+    total: number;
+  };
+};
+
+export type QueryOptionsTypes = {
+  limit?: number;
+  offset?: number;
+  [key: string]: any;
+};

@@ -1,13 +1,12 @@
-// hooks/useCategories.ts
 import { Category } from "@framework/types";
 import { useQuery } from "@tanstack/react-query";
 
 
 const fetchCategories = async (): Promise<Category[]> => {
-  const res = await fetch("https://app.cirqlsync.com/syncing-application/syncapi/product/category?orgID=52"); // replace with your API URL
+  const res = await fetch("https://app.cirqlsync.com/syncing-application/syncapi/product/category?orgID=52");
   if (!res.ok) throw new Error("Failed to fetch categories");
   const data = await res.json();
-  return data.data; // because your API wraps in { data: [...] }
+  return data.data;
 };
 
 export const useCategories = () => {

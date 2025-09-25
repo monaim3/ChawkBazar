@@ -1,16 +1,17 @@
-import { useCategoriesQuery } from "@framework/category/get-all-categories";
 import { CheckBox } from "@components/ui/checkbox";
 import { useRouter } from "next/router";
 import React from "react";
 import { useTranslation } from "next-i18next";
+import { useCategories } from "@framework/newCategories";
 
 export const CategoryFilter = () => {
   const { t } = useTranslation("common");
   const router = useRouter();
   const { pathname, query } = router;
-  const { data, isLoading } = useCategoriesQuery({
-    limit: 10,
-  });
+  // const { data, isLoading } = useCategoriesQuery({
+  //   limit: 10,
+  // });
+  const { data = [], isLoading } = useCategories();
 
   const selectedCategories = query?.category
     ? (query.category as string).split(",")
@@ -45,14 +46,14 @@ export const CategoryFilter = () => {
       { scroll: false }
     );
   }
-  const items = data?.categories.data;
+  // const items = data?.categories.data;
   return (
     <div className="block border-b border-gray-300 pb-7 mb-7">
       <h3 className="text-heading text-sm md:text-base font-semibold mb-7">
-        {t("text-category")}
+        Categoriesss
       </h3>
       <div className="mt-2 flex flex-col space-y-4">
-        {items?.map((item: any) => (
+        {data?.map((item: any) => (
           <CheckBox
             key={item.id}
             label={item.name}
