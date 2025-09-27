@@ -66,6 +66,7 @@ import { useProductsQuery } from "@framework/product/get-all-products";
 import ProductFeedLoader from "@components/ui/loaders/product-feed-loader";
 import { useTranslation } from "next-i18next";
 import { Product } from "@framework/types";
+import { useRouter } from "next/router";
 
 interface ProductGridProps {
   className?: string;
@@ -73,6 +74,9 @@ interface ProductGridProps {
 
 export const ProductGrid: FC<ProductGridProps> = ({ className = "" }) => {
   const { t } = useTranslation("common");
+  const router = useRouter();
+  const { query } = router;
+  console.log("Router Query:", router.query.category); // Debugging line to check router query
   const {
     isFetching,
     isFetchingNextPage,
@@ -80,10 +84,9 @@ export const ProductGrid: FC<ProductGridProps> = ({ className = "" }) => {
     hasNextPage,
     data,
     error,
-  } = useProductsQuery({ limit: 10 });
+  } = useProductsQuery({ limit: 10, ...query.category && { category: query.category } });
 
   if (error) return <p>{error.message}</p>;
-
   return (
     <>
       <div
@@ -92,15 +95,13 @@ export const ProductGrid: FC<ProductGridProps> = ({ className = "" }) => {
         {isFetching && !data?.pages?.length ? (
           <ProductFeedLoader limit={20} uniqueKey="search-product" />
         ) : (
-          data?.pages.map((page) =>
-            page.data.map((product: Product) => (
-              <ProductCard
-                key={`product--key${product.id}`}
-                product={product}
-                variant="grid"
-              />
-            ))
-          )
+          data?.pages?.[0]?.data.map((product: Product) => (
+            <ProductCard
+              key={`product--key${product.id}`}
+              product={product}
+              variant="grid"
+            />
+          ))
         )}
       </div>
 

@@ -25,7 +25,7 @@ const fetchProducts = async (
 	});
 
 	const { data } = await http.get<ProductResponse>(
-		`https://app.cirqlsync.com/syncing-application/syncapi/product/product-all?${params.toString()}`
+		`https://app.cirqlsync.com/syncing-application/syncapi/product/product-all?orgID=2&branchID=21${params.toString()}`
 	);
 
 	return {

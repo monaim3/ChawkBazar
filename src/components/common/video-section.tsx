@@ -1,33 +1,31 @@
+import { usevideoCategories } from "@framework/video-section";
+import Loading from "./Loading";
+
 const VideoSection = () => {
-    const videoList = [
-        {
-            id: 1,
-            src: "https://www.youtube.com/embed/KUhQJQSZD7U",
-            title: "DESIGNER KARCHUPI ABAYA"
-        },
-        {
-            id: 2,
-            src: "https://www.youtube.com/embed/nbJJYSE9qyI",
-            title: "Eid Collection-2025"
-        }
-    ];
+      const { data: categories, isLoading, error } = usevideoCategories();
+        if (isLoading) return <Loading />;
+        if (error) return <p>Error loading videos</p>;
     return (
         <section className="py-8">
             <div className="container mx-auto px-4 md:px-8 lg:px-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
-                    {videoList.map((video: any) => (
+                    {categories?.slice(0,2).map((video: any) => {
+                          const embedUrl = video.videoUrl?.replace("watch?v=", "embed/");
+
+                        return (
+                        
                         <div key={video.id} className="flex flex-col">
-                            <h2 className="text-sm font-bold text-black mb-2">{video.title}</h2>
+                            <h2 className="text-sm font-bold text-black mb-2">{video?.title}</h2>
                             <iframe
-                                className="w-full h-[500px]"
-                                src={video.src}
-                                title={video.title}
+                                className="w-full h-[450px]"
+                                src={embedUrl}
+                                title={video?.title}
                                 frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
                             ></iframe>
                         </div>
-                    ))}
+                    )})}
                 </div>
             </div>
         </section>

@@ -119,7 +119,7 @@ const ProductCard: FC<ProductProps> = ({
         )}
       >
         <Image
-          src={product?.image?.thumbnail ?? placeholderImage}
+          src={product?.image ?? placeholderImage}
           width={demoVariant === "ancient" ? 352 : Number(imgWidth)}
           height={demoVariant === "ancient" ? 452 : Number(imgHeight)}
           loading={imgLoading}
@@ -213,7 +213,7 @@ const ProductCard: FC<ProductProps> = ({
             <span className="text-xs font-semibold truncate sm:text-sm text-heading">
               4.5
             </span>
-            {product.quantity === 0 && (
+            {product?.quantity === 0 && (
               <span className="text-xs sm:text-sm leading-5 ltr:pl-3 rtl:pr-3 font-semibold text-[#EF4444]">
                 Out of stock
               </span>

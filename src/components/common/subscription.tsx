@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'next-i18next';
 
 const data = {
-  title: 'common:text-subscribe-heading',
-  description: 'common:text-subscribe-description',
+  title: 'Join Our Newsletter To Get Offers',
+  description: 'Subscribe to our newsletter and stay updated',
   buttonText: 'common:button-subscribe',
 };
 

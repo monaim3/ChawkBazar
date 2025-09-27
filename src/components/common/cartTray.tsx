@@ -25,14 +25,14 @@ const CartTray = () => {
                 onClick={handleCartOpen}
             >
                 <div
-                    className="icon p-2 pb-0 text-center "
+                    className="icon p-2 pb-0 text-center flex flex-col items-center justify-center"
                     style={{
                         color: "#fff",
                         backgroundColor: "#FF8029"
                     }}
                 >
                     {/* <BsCart3 size={28} className="m-1" /> */}
-                    <HiOutlineShoppingBag size={28} className="" style={{ color: "#fff" }} />
+                    <HiOutlineShoppingBag size={28} className="text-center" style={{ color: "#fff" }} />
                     <p className="text-sm mt-1" style={{ color: "#fff" }}>
                         {totalItems} ITEMS
                     </p>

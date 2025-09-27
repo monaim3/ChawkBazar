@@ -65,6 +65,7 @@ export default function Modal({
     };
   }, [open]);
   return (
+  <>
     <Portal>
       <AnimatePresence>
         {open && (
@@ -119,5 +120,6 @@ export default function Modal({
         )}
       </AnimatePresence>
     </Portal>
+  </>
   );
 }

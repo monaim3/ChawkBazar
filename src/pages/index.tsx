@@ -61,17 +61,17 @@ export default function Home() {
           className="mb-12 lg:mb-14 xl:mb-16 pb-0.5 lg:pb-1 xl:pb-0"
         /> */}
         {/* <BrandGridBlock sectionHeading="text-top-brands" /> */}
-        <BannerCard
+        {/* <BannerCard
           key={`banner--key${banner[1].id}`}
           banner={banner[1]}
           href={`${ROUTES.COLLECTIONS}/${banner[1].slug}`}
           className="mb-12 lg:mb-14 xl:mb-16 pb-0.5 lg:pb-1 xl:pb-0"
-        />
-        <BannerWithProducts
+        /> */}
+        {/* <BannerWithProducts
           sectionHeading="text-on-selling-products"
           categorySlug="/search"
-        />
-        <ExclusiveBlock />
+        /> */}
+        {/* <ExclusiveBlock /> */}
         {/* <NewArrivalsProductFeed /> */}
         {/* <DownloadApps /> */}
         {/* <Support /> */}

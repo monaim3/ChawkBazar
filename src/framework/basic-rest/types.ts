@@ -205,3 +205,4 @@ export type QueryOptionsTypes = {
   offset?: number;
   [key: string]: any;
 };
+

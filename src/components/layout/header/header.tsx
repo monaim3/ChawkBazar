@@ -16,6 +16,7 @@ import { useSearchQuery } from "@framework/product/use-search";
 import SearchProduct from "@components/common/search-product";
 import Scrollbar from "@components/common/scrollbar";
 import SearchResultLoader from "@components/ui/loaders/search-result-loader";
+import { useCategories } from "@framework/newCategories";
 
 const AuthMenu = dynamic(() => import("./auth-menu"), { ssr: false });
 const CartButton = dynamic(() => import("@components/cart/cart-button"), {
@@ -23,7 +24,6 @@ const CartButton = dynamic(() => import("@components/cart/cart-button"), {
 });
 
 const { site_header } = siteSettings;
-
 const Header: React.FC = () => {
   const { openModal, setModalView, isAuthorized } = useUI();
   const [searchText, setSearchText] = useState("");
@@ -36,6 +36,7 @@ const Header: React.FC = () => {
   const { data: searchResults, isLoading } = useSearchQuery({
     text: searchText,
   });
+   const { data: categories = [], isLoading: isLoadingCategories } = useCategories();
 
   function handleLogin() {
     setModalView("LOGIN_VIEW");
@@ -179,7 +180,7 @@ const Header: React.FC = () => {
       <div className="border-t border-gray-100 bg-white hidden lg:block">
         <div className="container mx-auto px-4 md:px-8 lg:px-6 ">
           <HeaderMenu
-            data={site_header.menu}
+            data={categories}
             className="flex justify-center items-center h-12 lg:h-14"
           />
         </div>

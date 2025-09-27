@@ -110,58 +110,58 @@ export const footer = {
         },
       ],
     },
-    {
-      id: 5,
-      widgetTitle: 'widget-title-our-information',
-      lists: [
-        {
-          id: 1,
-          title: 'link-privacy',
-          path: '/privacy',
-        },
-        {
-          id: 2,
-          title: 'link-terms',
-          path: '/terms',
-        },
-        {
-          id: 3,
-          title: 'link-return-policy',
-          path: '/privacy',
-        },
-        {
-          id: 4,
-          title: 'link-site-map',
-          path: '/',
-        },
-      ],
-    },
-    {
-      id: 6,
-      widgetTitle: 'widget-title-top-categories',
-      lists: [
-        {
-          id: 1,
-          title: 'link-men-wear',
-          path: '/search',
-        },
-        {
-          id: 2,
-          title: 'link-men-wear',
-          path: '/search',
-        },
-        {
-          id: 3,
-          title: 'link-kids-wear',
-          path: '/search',
-        },
-        {
-          id: 4,
-          title: 'link-sports-wear',
-          path: '/search',
-        },
-      ],
-    },
+    // {
+    //   id: 5,
+    //   widgetTitle: 'widget-title-our-information',
+    //   lists: [
+    //     {
+    //       id: 1,
+    //       title: 'link-privacy',
+    //       path: '/privacy',
+    //     },
+    //     {
+    //       id: 2,
+    //       title: 'link-terms',
+    //       path: '/terms',
+    //     },
+    //     {
+    //       id: 3,
+    //       title: 'link-return-policy',
+    //       path: '/privacy',
+    //     },
+    //     {
+    //       id: 4,
+    //       title: 'link-site-map',
+    //       path: '/',
+    //     },
+    //   ],
+    // },
+    // {
+    //   id: 6,
+    //   widgetTitle: 'widget-title-top-categories',
+    //   lists: [
+    //     {
+    //       id: 1,
+    //       title: 'link-men-wear',
+    //       path: '/search',
+    //     },
+    //     {
+    //       id: 2,
+    //       title: 'link-men-wear',
+    //       path: '/search',
+    //     },
+    //     {
+    //       id: 3,
+    //       title: 'link-kids-wear',
+    //       path: '/search',
+    //     },
+    //     {
+    //       id: 4,
+    //       title: 'link-sports-wear',
+    //       path: '/search',
+    //     },
+    //   ],
+    // },
   ],
   payment: [
     {

@@ -1,0 +1,17 @@
+import { Category } from "@framework/types";
+import { useQuery } from "@tanstack/react-query";
+
+const fetchCategories = async (): Promise<Category[]> => {
+  const res = await fetch("https://app.cirqlsync.com/syncing-application/syncapi/product/category?orgID=2");
+  if (!res.ok) throw new Error("Failed to fetch categories");
+  
+  const data = await res.json();
+  return data.data; 
+};
+
+export const usevideoCategories = () => {
+  return useQuery<Category[]>({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
+};
