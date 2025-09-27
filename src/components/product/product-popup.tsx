@@ -1,185 +1,4 @@
-// import React, { useState } from "react";
-// import { useRouter } from "next/router";
-// import isEmpty from "lodash/isEmpty";
-// import { ROUTES } from "@utils/routes";
-// import { useUI } from "@contexts/ui.context";
-// import Button from "@components/ui/button";
-// import Counter from "@components/common/counter";
-// import { useCart } from "@contexts/cart/cart.context";
-// import { ProductAttributes } from "@components/product/product-attributes";
-// import { generateCartItem } from "@utils/generate-cart-item";
-// import usePrice from "@framework/product/use-price";
-// import { getVariations } from "@framework/utils/get-variations";
-// import { useTranslation } from "next-i18next";
-
-// export default function ProductPopup() {
-//   const { t } = useTranslation("common");
-//   const {
-//     modalData: { data },
-//     closeModal,
-//     openCart,
-//   } = useUI();
-
-//   console.log("modal data", data);
-//   const router = useRouter();
-//   const { addItemToCart } = useCart();
-//   const [quantity, setQuantity] = useState(1);
-//   const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
-//   const [viewCartBtn, setViewCartBtn] = useState<boolean>(false);
-//   const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
-//   const { price, basePrice, discount } = usePrice({
-//     amount: data.sale_price ? data.sale_price : data.price,
-//     baseAmount: data.price,
-//     currencyCode: "USD",
-//   });
-//   const variations = getVariations(data.variations);
-//   const { slug, image, name, description } = data;
-
-//   const isSelected = !isEmpty(variations)
-//     ? !isEmpty(attributes) &&
-//     Object.keys(variations).every((variation) =>
-//       attributes.hasOwnProperty(variation)
-//     )
-//     : true;
-
-//   function addToCart() {
-//     if (!isSelected) return;
-//     // to show btn feedback while product carting
-//     setAddToCartLoader(true);
-//     setTimeout(() => {
-//       setAddToCartLoader(false);
-//       setViewCartBtn(true);
-//     }, 600);
-//     const item = generateCartItem(data!, attributes);
-//     addItemToCart(item, quantity);
-//     console.log(item, "item");
-//   }
-
-//   function navigateToProductPage() {
-//     closeModal();
-//     router.push(`${ROUTES.PRODUCT}/${slug}`, undefined, {
-//       locale: router.locale,
-//     });
-//   }
-
-//   function handleAttribute(attribute: any) {
-//     setAttributes((prev) => ({
-//       ...prev,
-//       ...attribute,
-//     }));
-//   }
-
-//   function navigateToCartPage() {
-//     closeModal();
-//     setTimeout(() => {
-//       openCart();
-//     }, 300);
-//   }
-
-//   return (
-//     <div className="rounded-lg bg-white">
-//       <div className="flex flex-col lg:flex-row w-full md:w-[650px] lg:w-[960px] mx-auto overflow-hidden">
-//         <div className="flex-shrink-0 flex items-center justify-center w-full lg:w-430px max-h-430px lg:max-h-full overflow-hidden bg-gray-300">
-//           {/* eslint-disable-next-line @next/next/no-img-element */}
-//           <img
-//             src={
-//               image?.original ??
-//               "/assets/placeholder/products/product-thumbnail.svg"
-//             }
-//             alt={name}
-//             className="lg:object-cover lg:w-full lg:h-full"
-//           />
-//         </div>
-
-//         <div className="flex flex-col p-5 md:p-8 w-full">
-//           <div className="pb-5">
-//             <div
-//               className="mb-2 md:mb-2.5 block -mt-1.5"
-//               onClick={navigateToProductPage}
-//               role="button"
-//             >
-//               <h2 className="text-heading text-lg md:text-xl lg:text-2xl font-semibold hover:text-black">
-//                 {name}
-//               </h2>
-//             </div>
-//             <p className="text-sm leading-6 md:text-body md:leading-7">
-//               {description}
-//             </p>
-
-//             <div className="flex items-center mt-3">
-//               <div className="text-heading font-semibold text-base md:text-xl lg:text-2xl">
-//                 {price}
-//               </div>
-//               {discount && (
-//                 <del className="font-segoe text-gray-400 text-base lg:text-xl ltr:pl-2.5 rtl:pr-2.5 -mt-0.5 md:mt-0">
-//                   {basePrice}
-//                 </del>
-//               )}
-//             </div>
-//           </div>
-
-//           {Object.keys(variations).map((variation) => {
-//             return (
-//               <ProductAttributes
-//                 key={`popup-attribute-key${variation}`}
-//                 title={variation}
-//                 attributes={variations[variation]}
-//                 active={attributes[variation]}
-//                 onClick={handleAttribute}
-//               />
-//             );
-//           })}
-
-//           <div className="pt-2 md:pt-4">
-//             <div className="flex items-center justify-between mb-4 gap-x-3 sm:gap-x-4">
-//               <Counter
-//                 quantity={quantity}
-//                 onIncrement={() => setQuantity((prev) => prev + 1)}
-//                 onDecrement={() =>
-//                   setQuantity((prev) => (prev !== 1 ? prev - 1 : 1))
-//                 }
-//                 disableDecrement={quantity === 1}
-//               />
-//               <Button
-//                 onClick={addToCart}
-//                 variant="flat"
-//                 className={`w-full h-11 md:h-12 px-1.5 ${!isSelected && "bg-gray-400 hover:bg-gray-400"
-//                   }`}
-//                 disabled={!isSelected}
-//                 loading={addToCartLoader}
-//               >
-//                 {t("text-add-to-cart")}
-//               </Button>
-//             </div>
-
-//             {viewCartBtn && (
-//               <button
-//                 onClick={navigateToCartPage}
-//                 className="w-full mb-4 h-11 md:h-12 rounded bg-gray-100 text-heading focus:outline-none border border-gray-300 transition-colors hover:bg-gray-50 focus:bg-gray-50"
-//               >
-//                 {t("text-view-cart")}
-//               </button>
-//             )}
-
-//             <Button
-//               onClick={navigateToProductPage}
-//               variant="flat"
-//               className="w-full h-11 md:h-12"
-//             >
-//               {t("text-view-details")}
-//             </Button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
-
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import isEmpty from "lodash/isEmpty";
 import { ROUTES } from "@utils/routes";
@@ -191,110 +10,128 @@ import { ProductAttributes } from "@components/product/product-attributes";
 import { generateCartItem } from "@utils/generate-cart-item";
 import usePrice from "@framework/product/use-price";
 import { getVariations } from "@framework/utils/get-variations";
-import { useTranslation } from "next-i18next";
 import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
+import { Product } from "@framework/types";
+import Loading from "@components/common/Loading";
 
 export default function ProductPopup() {
-  const { t } = useTranslation("common");
-  const {
-    modalData: { data },
-    closeModal,
-    openCart,
-  } = useUI();
+  const { modalData: { id }, closeModal, openCart } = useUI();
   const router = useRouter();
   const { addItemToCart } = useCart();
+
   const [quantity, setQuantity] = useState(1);
   const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
-  const [viewCartBtn, setViewCartBtn] = useState<boolean>(false);
-  const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
+  const [viewCartBtn, setViewCartBtn] = useState(false);
+  const [addToCartLoader, setAddToCartLoader] = useState(false);
 
+  // Fetch product
+  const { data, isLoading } = useQuery<Product>({
+    queryKey: ["product", id],
+    queryFn: async () => {
+      const res = await fetch(`https://app.cirqlsync.com/syncing-application/syncapi/product/${id}`);
+      return await res.json();
+    },
+    enabled: !!id,
+  });
+
+
+  // Extract variations & prices
+  const variations = getVariations(data?.variations || {});
+  const prices = data?.prices || [];
+
+  // Colors for UI
+  const availableColors = useMemo(() => data?.variations?.colors || [], [data]);
+
+  // Sizes for currently selected color
+  const availableSizes = useMemo(() => {
+    if (!attributes.colors) return [];
+    const colorObj = prices.find(p => p.color === attributes.colors);
+    if (!colorObj) return [];
+    return colorObj.sizes.map(s => ({ id: s.size_id, value: s.size }));
+  }, [attributes.colors, prices]);
+
+  // Default selections
+  useEffect(() => {
+    // Default first color
+    if (!attributes.colors && availableColors.length) {
+      setAttributes(prev => ({
+        ...prev,
+        colors: availableColors[0].value,
+      }));
+    }
+
+    // Default first size for selected color
+    if (attributes.colors && availableSizes.length) {
+      setAttributes(prev => ({
+        ...prev,
+        sizes: availableSizes[0].value,
+      }));
+    } else if (attributes.colors) {
+      setAttributes(prev => ({ ...prev, sizes: "" }));
+    }
+  }, [availableColors, attributes.colors, availableSizes]);
+
+  // Price calculation
+  const selectedPrice = useMemo(() => {
+    if (!attributes.colors) return Number(data?.finalPrice);
+
+    const colorObj = prices.find(p => p.color === attributes.colors);
+    if (!colorObj) return Number(data?.finalPrice);
+
+    if (!attributes.sizes) return Number(colorObj.sizes[0]?.price ?? data?.finalPrice);
+
+    const sizeObj = colorObj.sizes.find(s => s.size === attributes.sizes);
+    return Number(sizeObj?.price ?? data?.finalPrice);
+  }, [attributes.colors, attributes.sizes, prices, data?.finalPrice]);
+
+  // Price hook
   const { price, basePrice, discount } = usePrice({
-    amount: data.sale_price ? data.sale_price : data.price,
-    baseAmount: data.price,
+    amount: selectedPrice ?? Number(data?.finalPrice),
+    baseAmount: Number(data?.basePrice),
     currencyCode: "USD",
   });
 
-  // Group variations by attribute.slug
-  const variations = getVariations(data.variations);
-  const { slug, image, name, description } = data;
-  // Check if all attributes are selected
-  const isSelected = !isEmpty(variations)
-    ? !isEmpty(attributes) &&
-    Object.keys(variations).every((variation) =>
-      attributes.hasOwnProperty(variation)
-    )
-    : true;
+  // Attribute selection
+  const handleAttribute = (attr: any) => {
+    setAttributes(prev => ({ ...prev, ...attr }));
+  };
 
-  // function addToCart() {
-  //   if (!isSelected) return;
-  //   setAddToCartLoader(true);
-  //   setTimeout(() => {
-  //     setAddToCartLoader(false);
-  //     setViewCartBtn(true);
-  //   }, 600);
+  // Add to cart
+  const addToCart = () => {
+    if (!isEmpty(variations) && !Object.keys(attributes).length) return;
 
-  //   const item = generateCartItem(data!, attributes);
-  //   addItemToCart(item, quantity);
-  // }
-
-  function addToCart() {
-    if (!isSelected) return;
-
-    // Show button loading feedback
     setAddToCartLoader(true);
-
     setTimeout(() => {
       setAddToCartLoader(false);
       setViewCartBtn(true);
-
-      // Show toast notification
-      toast.success("Item added successfully!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }, 600);
+      toast.success("Item added successfully!");
+    }, 500);
 
     const item = generateCartItem(data!, attributes);
-    console.log("modalitems", item);
     addItemToCart(item, quantity);
-  }
-  function navigateToProductPage() {
+    console.log("cart item", item);
+  };
+
+  // Navigation
+  const navigateToProductPage = () => {
     closeModal();
-    router.push(`${ROUTES.PRODUCT}/${slug}`, undefined, {
-      locale: router.locale,
-    });
-  }
-
-  function handleAttribute(attribute: any) {
-    setAttributes((prev) => ({
-      ...prev,
-      ...attribute,
-    }));
-  }
-
-  function navigateToCartPage() {
+    router.push(`${ROUTES.PRODUCT}/${data?.id || id}`);
+  };
+  const navigateToCartPage = () => {
     closeModal();
-    setTimeout(() => {
-      openCart();
-    }, 300);
-  }
+    setTimeout(() => openCart(), 300);
+  };
 
+  if (isLoading || !data) return <Loading />;
   return (
     <div className="rounded-lg bg-white">
       <div className="flex flex-col lg:flex-row w-full md:w-[650px] lg:w-[960px] mx-auto overflow-hidden">
         {/* Product Image */}
         <div className="flex-shrink-0 flex items-center justify-center w-full lg:w-[430px] max-h-[430px] lg:max-h-full overflow-hidden bg-gray-300">
           <img
-            src={
-              image ??
-              "/assets/placeholder/products/product-thumbnail.svg"
-            }
-            alt={name}
+            src={data.image || "/assets/placeholder/products/product-thumbnail.svg"}
+            alt={data.name}
             className="lg:object-cover lg:w-full lg:h-full"
           />
         </div>
@@ -302,17 +139,13 @@ export default function ProductPopup() {
         {/* Product Info */}
         <div className="flex flex-col p-5 md:p-8 w-full">
           <div className="pb-5">
-            <div
-              className="mb-2 md:mb-2.5 block -mt-1.5"
-              onClick={navigateToProductPage}
-              role="button"
-            >
+            <div onClick={navigateToProductPage} role="button">
               <h2 className="text-heading text-lg md:text-xl lg:text-2xl font-semibold hover:text-black">
-                {name}
+                {data.name}
               </h2>
             </div>
             <p className="text-sm leading-6 md:text-body md:leading-7">
-              {description}
+              {data.description}
             </p>
 
             <div className="flex items-center mt-3">
@@ -320,62 +153,58 @@ export default function ProductPopup() {
                 {price}
               </div>
               {discount && (
-                <del className="font-segoe text-gray-400 text-base lg:text-xl ltr:pl-2.5 rtl:pr-2.5 -mt-0.5 md:mt-0">
+                <del className="font-segoe text-gray-400 text-base lg:text-xl pl-2.5">
                   {basePrice}
                 </del>
               )}
             </div>
           </div>
 
-          {/* Product Variations */}
-          {Object.keys(variations).map((variation) => (
-            <ProductAttributes
-              key={`popup-attribute-key-${variation}`}
-              title={variation}            // "colors" or "sizes"
-              attributes={variations[variation]}
-              active={attributes[variation]}
-              onClick={handleAttribute}
-            />
-          ))}
+          {/* Variations */}
+          <ProductAttributes
+            title="colors"
+            attributes={availableColors}
+            active={attributes.colors}
+            onClick={handleAttribute}
+          />
 
-          {/* Quantity & Add to Cart */}
+          <ProductAttributes
+            title="sizes"
+            attributes={availableSizes}
+            active={attributes.sizes}
+            onClick={handleAttribute}
+          />
+
+          {/* Quantity & Cart Buttons */}
           <div className="pt-2 md:pt-4">
-            <div className="flex items-center justify-between mb-4 gap-x-3 sm:gap-x-4">
+            <div className="flex items-center justify-between mb-4 gap-x-3">
               <Counter
                 quantity={quantity}
-                onIncrement={() => setQuantity((prev) => prev + 1)}
-                onDecrement={() =>
-                  setQuantity((prev) => (prev !== 1 ? prev - 1 : 1))
-                }
+                onIncrement={() => setQuantity(q => q + 1)}
+                onDecrement={() => setQuantity(q => (q !== 1 ? q - 1 : 1))}
                 disableDecrement={quantity === 1}
               />
               <Button
                 onClick={addToCart}
                 variant="flat"
-                className={`w-full h-11 md:h-12 px-1.5 ${!isSelected && "bg-gray-400 hover:bg-gray-400"
-                  }`}
-                disabled={!isSelected}
+                className={`w-full h-11 md:h-12 px-1.5`}
                 loading={addToCartLoader}
               >
-                {t("text-add-to-cart")}
+                Add to Cart
               </Button>
             </div>
 
             {viewCartBtn && (
               <button
                 onClick={navigateToCartPage}
-                className="w-full mb-4 h-11 md:h-12 rounded bg-gray-100 text-heading focus:outline-none border border-gray-300 transition-colors hover:bg-gray-50 focus:bg-gray-50"
+                className="w-full mb-4 h-11 md:h-12 rounded bg-gray-100 border border-gray-300 hover:bg-gray-50"
               >
-                {t("text-view-cart")}
+                View Cart
               </button>
             )}
 
-            <Button
-              onClick={navigateToProductPage}
-              variant="flat"
-              className="w-full h-11 md:h-12"
-            >
-              {t("text-view-details")}
+            <Button onClick={navigateToProductPage} variant="flat" className="w-full h-11 md:h-12">
+              View Details
             </Button>
           </div>
         </div>

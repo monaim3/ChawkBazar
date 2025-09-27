@@ -42,6 +42,27 @@ export function formatVariantPrice({
   return { price, basePrice, discount };
 }
 
+// export default function usePrice(
+//   data?: {
+//     amount: number;
+//     baseAmount?: number;
+//     currencyCode: string;
+//   } | null
+// ) {
+//   const { amount, baseAmount, currencyCode } = data ?? {};
+//   const locale = "en";
+//   const value = useMemo(() => {
+//     if (typeof amount !== "number" || !currencyCode) return "";
+
+//     return baseAmount
+//       ? formatVariantPrice({ amount, baseAmount, currencyCode, locale })
+//       : formatPrice({ amount, currencyCode, locale });
+//   }, [amount, baseAmount, currencyCode]);
+
+//   return typeof value === "string"
+//     ? { price: value, basePrice: null, discount: null }
+//     : value;
+// }
 export default function usePrice(
   data?: {
     amount: number;
@@ -51,15 +72,26 @@ export default function usePrice(
 ) {
   const { amount, baseAmount, currencyCode } = data ?? {};
   const locale = "en";
-  const value = useMemo(() => {
-    if (typeof amount !== "number" || !currencyCode) return "";
 
-    return baseAmount
-      ? formatVariantPrice({ amount, baseAmount, currencyCode, locale })
-      : formatPrice({ amount, currencyCode, locale });
+  const value = useMemo(() => {
+    if (typeof amount !== "number" || !currencyCode) {
+      return {
+        price: "",
+        basePrice: null,
+        discount: null,
+      };
+    }
+
+    if (baseAmount) {
+      return formatVariantPrice({ amount, baseAmount, currencyCode, locale });
+    }
+
+    return {
+      price: formatPrice({ amount, currencyCode, locale }),
+      basePrice: null,
+      discount: null,
+    };
   }, [amount, baseAmount, currencyCode]);
 
-  return typeof value === "string"
-    ? { price: value, basePrice: null, discount: null }
-    : value;
+  return value;
 }

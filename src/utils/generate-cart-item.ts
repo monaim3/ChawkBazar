@@ -44,7 +44,6 @@ interface Item {
 }
 
 export function generateCartItem(item: Item, attributes: object) {
-
   const {
     id,
     name,
@@ -69,13 +68,11 @@ export function generateCartItem(item: Item, attributes: object) {
         : 0;
 
   return {
-    id: !isEmpty(attributes)
-      ? `${id}.${Object.values(attributes).join(".")}`
-      : id,
+    id, // only product id
     name,
     slug: slug ?? String(id), // fallback if slug missing
     image: imageUrl,
     price,
-    attributes,
+    attributes, // keep selected attributes for display
   };
 }

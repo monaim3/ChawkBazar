@@ -189,7 +189,18 @@ export type Product = {
       value: string;
     }[];
   };
+  prices: {
+    color_id: number;
+    color: string;
+    color_code: string;
+    sizes: {
+      size_id: number;
+      size: string;
+      price: number;
+    }[];
+  }[];
 };
+
 
 export type ProductResponse = {
   data: Product[];

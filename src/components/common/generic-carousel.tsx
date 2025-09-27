@@ -53,7 +53,8 @@ const StyledProductCard = ({ product }: { product: GenericProduct }) => {
         : 0;
 
     const openQuickView = () => {
-        setModalData({ data: product as unknown as Product });
+        // setModalData({ data: product as unknown as Product });
+        setModalData({ id: product.id });
         setModalView("PRODUCT_VIEW");
         openModal();
     };
@@ -104,7 +105,7 @@ const StyledProductCard = ({ product }: { product: GenericProduct }) => {
                         TK. {displayPrice}
                     </span>
                     {originalPrice && (
-                        <span className="text-sm font-semibold text-gray-500 line-through">
+                        <span className="text-sm font-semibold text-gray-800 line-through">
                             TK. {originalPrice}
                         </span>
                     )}
