@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Button from "@components/ui/button";
 import Counter from "@components/common/counter";
 import { useRouter } from "next/router";
-import { useProductQuery } from "@framework/product/get-product";
 import { getVariations } from "@framework/utils/get-variations";
 import usePrice from "@framework/product/use-price";
 import { useCart } from "@contexts/cart/cart.context";
@@ -16,6 +15,9 @@ import Carousel from "@components/ui/carousel/carousel";
 import { SwiperSlide } from "swiper/react";
 import ProductMetaReview from "@components/product/product-meta-review";
 import { useSsrCompatible } from "@utils/use-ssr-compatible";
+import { useQuery } from "@tanstack/react-query";
+import { Product } from "@framework/types";
+import Loading from "@components/common/Loading";
 
 const productGalleryCarouselResponsive = {
   "768": {
@@ -31,56 +33,111 @@ const ProductSingleDetails: React.FC = () => {
     query: { slug },
   } = useRouter();
   const { width } = useSsrCompatible(useWindowSize(), { width: 0, height: 0 });
-  const { data, isLoading } = useProductQuery(slug as string);
-  const { addItemToCart } = useCart();
-  const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
+
   const [quantity, setQuantity] = useState(1);
-  const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
-  const { price, basePrice, discount } = usePrice(
-    data && {
-      amount: data.sale_price ? data.sale_price : data.price,
-      baseAmount: data.price,
-      currencyCode: "USD",
+  const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
+  const [viewCartBtn, setViewCartBtn] = useState(false);
+  const [addToCartLoader, setAddToCartLoader] = useState(false);
+  const { addItemToCart } = useCart();
+  // Fetch product
+  const { data, isLoading } = useQuery<Product>({
+    queryKey: ["product", slug],
+    queryFn: async () => {
+      const res = await fetch(`https://app.cirqlsync.com/syncing-application/syncapi/product/${slug}`);
+      return await res.json();
+    },
+    enabled: !!slug,
+  });
+
+
+  // Extract variations & prices
+  const variations = getVariations(data?.variations || {});
+  const prices = data?.prices || [];
+
+  // Colors for UI
+  const availableColors = useMemo(() => data?.variations?.colors || [], [data]);
+
+  // Sizes for currently selected color
+  const availableSizes = useMemo(() => {
+    if (!attributes.colors) return [];
+    const colorObj = prices.find(p => p.color === attributes.colors);
+    if (!colorObj) return [];
+    return colorObj.sizes.map(s => ({ id: s.size_id, value: s.size }));
+  }, [attributes.colors, prices]);
+
+  // Default selections
+  useEffect(() => {
+    // Default first color
+    if (!attributes.colors && availableColors.length) {
+      setAttributes(prev => ({
+        ...prev,
+        colors: availableColors[0].value,
+      }));
     }
-  );
-  if (isLoading) return <p>Loading...</p>;
-  const variations = getVariations(data?.variations);
 
-  const isSelected = !isEmpty(variations)
-    ? !isEmpty(attributes) &&
-    Object.keys(variations).every((variation) =>
-      attributes.hasOwnProperty(variation)
-    )
-    : true;
+    // Default first size for selected color
+    if (attributes.colors && availableSizes.length) {
+      setAttributes(prev => ({
+        ...prev,
+        sizes: availableSizes[0].value,
+      }));
+    } else if (attributes.colors) {
+      setAttributes(prev => ({ ...prev, sizes: "" }));
+    }
+  }, [availableColors, attributes.colors, availableSizes]);
 
-  function addToCart() {
-    if (!isSelected) return;
-    // to show btn feedback while product carting
+  // Price calculation
+  const selectedPrice = useMemo(() => {
+    if (!attributes.colors) return Number(data?.finalPrice);
+
+    const colorObj = prices.find(p => p.color === attributes.colors);
+    if (!colorObj) return Number(data?.finalPrice);
+
+    if (!attributes.sizes) return Number(colorObj.sizes[0]?.price ?? data?.finalPrice);
+
+    const sizeObj = colorObj.sizes.find(s => s.size === attributes.sizes);
+    return Number(sizeObj?.price ?? data?.finalPrice);
+  }, [attributes.colors, attributes.sizes, prices, data?.finalPrice]);
+
+  // Price hook
+  const { price, basePrice, discount } = usePrice({
+    amount: selectedPrice ?? Number(data?.finalPrice),
+    baseAmount: Number(data?.basePrice),
+    currencyCode: "USD",
+  });
+
+  // Attribute selection
+  const handleAttribute = (attr: any) => {
+    setAttributes(prev => ({ ...prev, ...attr }));
+  };
+
+  // Add to cart
+  const addToCart = () => {
+    if (!isEmpty(variations) && !Object.keys(attributes).length) return;
+
     setAddToCartLoader(true);
     setTimeout(() => {
       setAddToCartLoader(false);
-    }, 600);
+      setViewCartBtn(true);
+      toast.success("Item added successfully!");
+    }, 500);
 
     const item = generateCartItem(data!, attributes);
     addItemToCart(item, quantity);
-    toast("Added to the bag", {
-      progressClassName: "fancy-progress-bar",
-      position: width > 768 ? "bottom-right" : "top-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
-  }
+    console.log("cart item", item);
+  };
 
-  function handleAttribute(attribute: any) {
-    setAttributes((prev) => ({
-      ...prev,
-      ...attribute,
-    }));
-  }
+  // Navigation
+  // const navigateToProductPage = () => {
+  //   closeModal();
+  //   router.push(`${ROUTES.PRODUCT}/${data?.id || id}`);
+  // };
+  // const navigateToCartPage = () => {
+  //   closeModal();
+  //   setTimeout(() => openCart(), 300);
+  // };
 
+  if (isLoading || !data) return <Loading />;
   return (
     <div className="block lg:grid grid-cols-9 gap-x-10 xl:gap-x-14 pt-7 pb-10 lg:pb-14 2xl:pb-20 items-start">
       {width < 1025 ? (
@@ -98,7 +155,7 @@ const ProductSingleDetails: React.FC = () => {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={
-                    item?.original ??
+                    item?.image ??
                     "/assets/placeholder/products/product-gallery.svg"
                   }
                   alt={`${data?.name}--${index}`}
@@ -118,7 +175,7 @@ const ProductSingleDetails: React.FC = () => {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={
-                  item?.original ??
+                  item?.image ??
                   "/assets/placeholder/products/product-gallery.svg"
                 }
                 alt={`${data?.name}--${index}`}
@@ -173,10 +230,8 @@ const ProductSingleDetails: React.FC = () => {
           />
           <Button
             onClick={addToCart}
-            variant="slim"
-            className={`w-full md:w-6/12 xl:w-full ${!isSelected && "bg-gray-400 hover:bg-gray-400"
-              }`}
-            disabled={!isSelected}
+            variant="flat"
+            className={`w-full h-11 md:h-12 px-1.5`}
             loading={addToCartLoader}
           >
             <span className="py-2 3xl:px-8">Add to cart</span>
@@ -184,12 +239,7 @@ const ProductSingleDetails: React.FC = () => {
         </div>
         <div className="py-6">
           <ul className="text-sm space-y-5 pb-1">
-            <li>
-              <span className="font-semibold text-heading inline-block ltr:pr-2 rtl:pl-2">
-                SKU:
-              </span>
-              {data?.sku}
-            </li>
+
             <li>
               <span className="font-semibold text-heading inline-block ltr:pr-2 rtl:pl-2">
                 Category:
@@ -201,7 +251,7 @@ const ProductSingleDetails: React.FC = () => {
                 {data?.category?.name}
               </Link>
             </li>
-            {data?.tags && Array.isArray(data.tags) && (
+            {/* {data?.tags && Array.isArray(data.tags) && (
               <li className="productTags">
                 <span className="font-semibold text-heading inline-block ltr:pr-2 rtl:pl-2">
                   Tags:
@@ -217,11 +267,11 @@ const ProductSingleDetails: React.FC = () => {
                   </Link>
                 ))}
               </li>
-            )}
+            )} */}
           </ul>
         </div>
 
-        <ProductMetaReview data={data} />
+        {/* <ProductMetaReview data={data} /> */}
       </div>
     </div>
   );

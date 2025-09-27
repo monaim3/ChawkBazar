@@ -6,7 +6,7 @@ import Divider from "@components/ui/divider";
 import Breadcrumb from "@components/common/breadcrumb";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { GetServerSideProps } from "next";
-import { ProductGrid } from "@components/product/product-grid";
+import ProductSingleDetails from "@components/product/product-single-details";
 
 export default function ProductPage() {
 	return (
@@ -16,7 +16,7 @@ export default function ProductPage() {
 				<div className="pt-8">
 					<Breadcrumb />
 				</div>
-			   <ProductGrid />
+			   <ProductSingleDetails />
 				<RelatedProducts sectionHeading="text-related-products" />
 				<Subscription />
 			</Container>
