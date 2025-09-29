@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import Button from "@components/ui/button";
 import Counter from "@components/common/counter";
 import { useRouter } from "next/router";
@@ -10,37 +10,107 @@ import { ProductAttributes } from "./product-attributes";
 import isEmpty from "lodash/isEmpty";
 import Link from "@components/ui/link";
 import { toast } from "react-toastify";
-import { useWindowSize } from "@utils/use-window-size";
-import Carousel from "@components/ui/carousel/carousel";
-import { SwiperSlide } from "swiper/react";
-import ProductMetaReview from "@components/product/product-meta-review";
-import { useSsrCompatible } from "@utils/use-ssr-compatible";
 import { useQuery } from "@tanstack/react-query";
 import { Product } from "@framework/types";
 import Loading from "@components/common/Loading";
 
-const productGalleryCarouselResponsive = {
-  "768": {
-    slidesPerView: 2,
-  },
-  "0": {
-    slidesPerView: 1,
-  },
+// Product Gallery Component
+const ProductGalleryComponent = ({ gallery, mainImage }) => {
+  const [selectedImage, setSelectedImage] = useState(mainImage || (gallery?.[0]?.image));
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const imageRef = useRef(null);
+
+  const images = gallery && gallery.length > 0 ? gallery : [{ image: mainImage }];
+
+  const handleMouseMove = (e) => {
+    if (!imageRef.current) return;
+    
+    const rect = imageRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    
+    setZoomPosition({ x, y });
+  };
+
+  const handleMouseEnter = () => {
+    setIsZoomed(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsZoomed(false);
+  };
+
+  return (
+    <div className="col-span-5 grid grid-cols-[120px_1fr] gap-4">
+      {/* Thumbnail Column */}
+      <div className="flex flex-col gap-3">
+        {images.map((item, idx) => (
+          <button
+            key={idx}
+            onClick={() => setSelectedImage(item.image)}
+            className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+              selectedImage === item.image
+                ? 'border-gray-900'
+                : 'border-gray-200 hover:border-gray-400'
+            }`}
+          >
+            <img
+              src={item.image}
+              alt={`Thumbnail ${idx + 1}`}
+              className="w-full h-full object-cover"
+            />
+          </button>
+        ))}
+      </div>
+
+      {/* Main Image with Zoom */}
+      <div className="relative bg-gray-50 rounded-lg overflow-hidden">
+        <div
+          ref={imageRef}
+          className="relative w-full aspect-square cursor-zoom-in"
+          onMouseMove={handleMouseMove}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <img
+            src={selectedImage}
+            alt="Product"
+            className="w-full h-full object-contain"
+          />
+          
+          {/* Zoom Overlay */}
+          {isZoomed && (
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                backgroundImage: `url(${selectedImage})`,
+                backgroundSize: '200%',
+                backgroundPosition: `${zoomPosition.x}% ${zoomPosition.y}%`,
+                backgroundRepeat: 'no-repeat',
+              }}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
-const ProductSingleDetails: React.FC = () => {
+// Main Product Component
+const ProductSingleDetails = () => {
   const {
     query: { slug },
   } = useRouter();
-  const { width } = useSsrCompatible(useWindowSize(), { width: 0, height: 0 });
 
   const [quantity, setQuantity] = useState(1);
-  const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
+  const [attributes, setAttributes] = useState({});
   const [viewCartBtn, setViewCartBtn] = useState(false);
   const [addToCartLoader, setAddToCartLoader] = useState(false);
   const { addItemToCart } = useCart();
+
   // Fetch product
-  const { data, isLoading } = useQuery<Product>({
+  const { data, isLoading } = useQuery({
     queryKey: ["product", slug],
     queryFn: async () => {
       const res = await fetch(`https://app.cirqlsync.com/syncing-application/syncapi/product/${slug}`);
@@ -48,7 +118,6 @@ const ProductSingleDetails: React.FC = () => {
     },
     enabled: !!slug,
   });
-
 
   // Extract variations & prices
   const variations = getVariations(data?.variations || {});
@@ -107,7 +176,7 @@ const ProductSingleDetails: React.FC = () => {
   });
 
   // Attribute selection
-  const handleAttribute = (attr: any) => {
+  const handleAttribute = (attr) => {
     setAttributes(prev => ({ ...prev, ...attr }));
   };
 
@@ -122,70 +191,17 @@ const ProductSingleDetails: React.FC = () => {
       toast.success("Item added successfully!");
     }, 500);
 
-    const item = generateCartItem(data!, attributes);
+    const item = generateCartItem(data, attributes);
     addItemToCart(item, quantity);
     console.log("cart item", item);
   };
 
-  // Navigation
-  // const navigateToProductPage = () => {
-  //   closeModal();
-  //   router.push(`${ROUTES.PRODUCT}/${data?.id || id}`);
-  // };
-  // const navigateToCartPage = () => {
-  //   closeModal();
-  //   setTimeout(() => openCart(), 300);
-  // };
-
   if (isLoading || !data) return <Loading />;
+
   return (
     <div className="block lg:grid grid-cols-9 gap-x-10 xl:gap-x-14 pt-7 pb-10 lg:pb-14 2xl:pb-20 items-start">
-      {width < 1025 ? (
-        <Carousel
-          pagination={{
-            clickable: true,
-          }}
-          breakpoints={productGalleryCarouselResponsive}
-          className="product-gallery"
-          buttonGroupClassName="hidden"
-        >
-          {data?.gallery?.map((item, index: number) => (
-            <SwiperSlide key={`product-gallery-key-${index}`}>
-              <div className="col-span-1 transition duration-150 ease-in hover:opacity-90">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={
-                    item?.image ??
-                    "/assets/placeholder/products/product-gallery.svg"
-                  }
-                  alt={`${data?.name}--${index}`}
-                  className="object-cover w-full"
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Carousel>
-      ) : (
-        <div className="col-span-5 grid grid-cols-2 gap-2.5">
-          {data?.gallery?.map((item, index: number) => (
-            <div
-              key={index}
-              className="col-span-1 transition duration-150 ease-in hover:opacity-90"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={
-                  item?.image ??
-                  "/assets/placeholder/products/product-gallery.svg"
-                }
-                alt={`${data?.name}--${index}`}
-                className="object-cover w-full"
-              />
-            </div>
-          ))}
-        </div>
-      )}
-
+      <ProductGalleryComponent gallery={data.gallery} mainImage={data.image} />
+      
       <div className="col-span-4 pt-8 lg:pt-0">
         <div className="pb-7 mb-7 border-b border-gray-300">
           <h2 className="text-heading text-lg md:text-xl lg:text-2xl 2xl:text-3xl font-bold hover:text-black mb-3.5">
@@ -207,19 +223,26 @@ const ProductSingleDetails: React.FC = () => {
         </div>
 
         <div className="pb-3 border-b border-gray-300">
-          {Object.keys(variations).map((variation) => {
-            return (
-              <ProductAttributes
-                key={variation}
-                title={variation}
-                attributes={variations[variation]}
-                active={attributes[variation]}
-                onClick={handleAttribute}
-              />
-            );
-          })}
+          {/* Color Attributes */}
+          <ProductAttributes
+            title="colors"
+            attributes={availableColors}
+            active={attributes.colors}
+            onClick={handleAttribute}
+          />
+
+          {/* Size Attributes - Only show if sizes available for selected color */}
+          {availableSizes.length > 0 && (
+            <ProductAttributes
+              title="sizes"
+              attributes={availableSizes}
+              active={attributes.sizes}
+              onClick={handleAttribute}
+            />
+          )}
         </div>
-        <div className="flex items-center gap-x-4 ltr:md:pr-32 rtl:md:pl-32 ltr:lg:pr-12 rtl:lg:pl-12 ltr:2xl:pr-32 rtl:2xl:pl-32 ltr:3xl:pr-48 rtl:3xl:pl-48  border-b border-gray-300 py-8">
+
+        <div className="flex items-center gap-x-4 ltr:md:pr-32 rtl:md:pl-32 ltr:lg:pr-12 rtl:lg:pl-12 ltr:2xl:pr-32 rtl:2xl:pl-32 ltr:3xl:pr-48 rtl:3xl:pl-48 border-b border-gray-300 py-8">
           <Counter
             quantity={quantity}
             onIncrement={() => setQuantity((prev) => prev + 1)}
@@ -237,9 +260,9 @@ const ProductSingleDetails: React.FC = () => {
             <span className="py-2 3xl:px-8">Add to cart</span>
           </Button>
         </div>
+
         <div className="py-6">
           <ul className="text-sm space-y-5 pb-1">
-
             <li>
               <span className="font-semibold text-heading inline-block ltr:pr-2 rtl:pl-2">
                 Category:
@@ -251,28 +274,10 @@ const ProductSingleDetails: React.FC = () => {
                 {data?.category?.name}
               </Link>
             </li>
-            {/* {data?.tags && Array.isArray(data.tags) && (
-              <li className="productTags">
-                <span className="font-semibold text-heading inline-block ltr:pr-2 rtl:pl-2">
-                  Tags:
-                </span>
-                {data.tags.map((tag) => (
-                  <Link
-                    key={tag.id}
-                    href={tag.slug}
-                    className="inline-block ltr:pr-1.5 rtl:pl-1.5 transition hover:underline hover:text-heading ltr:last:pr-0 rtl:last:pl-0"
-                  >
-                    {tag.name}
-                    <span className="text-heading">,</span>
-                  </Link>
-                ))}
-              </li>
-            )} */}
           </ul>
         </div>
-
-        {/* <ProductMetaReview data={data} /> */}
       </div>
+      
     </div>
   );
 };
