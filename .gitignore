@@ -42,3 +42,4 @@ sw.js
 tsconfig.tsbuildinfo
 vercel.json
 /.vscode
+.vercel
