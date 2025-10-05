@@ -1,22 +1,33 @@
 import SectionHeader from "@components/common/section-header";
 import ProductCard from "@components/product/product-card";
 import ProductFeedLoader from "@components/ui/loaders/product-feed-loader";
-import { useRelatedProductsQuery } from "@framework/product/get-related-product";
+import { Product } from "@framework/types";
 import Alert from "@components/ui/alert";
+import { useProductsQuery } from "@framework/product/get-all-products";
 
 interface ProductsProps {
 	sectionHeading: string;
 	className?: string;
+	slug?: number;
 }
 
 const RelatedProducts: React.FC<ProductsProps> = ({
 	sectionHeading,
 	className = "mb-9 lg:mb-10 xl:mb-14",
+	slug
 }) => {
-	const { data, isLoading, error } = useRelatedProductsQuery({
-		limit: 10,
-	});
-
+	// const { data, isLoading, error } = useRelatedProductsQuery({
+	// 	limit: 10,
+	// });
+	const {
+		isFetching,
+		isFetchingNextPage,
+		fetchNextPage,
+		hasNextPage,
+		data,
+		error,
+		isLoading
+	} = useProductsQuery({ limit: 10, slug } as any);
 	return (
 		<div className={className}>
 			<SectionHeader sectionHeading={sectionHeading} />
@@ -28,7 +39,7 @@ const RelatedProducts: React.FC<ProductsProps> = ({
 				) : isLoading ? (
 					<ProductFeedLoader limit={5} uniqueKey="related-product" />
 				) : (
-					data?.map((product: any) => (
+					data?.pages?.[0]?.data.map((product: Product) => (
 						<ProductCard
 							key={`product--key${product.id}`}
 							product={product}

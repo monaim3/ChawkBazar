@@ -7,8 +7,13 @@ import Breadcrumb from "@components/common/breadcrumb";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { GetServerSideProps } from "next";
 import ProductSingleDetails from "@components/product/product-single-details";
+import { useRouter } from "next/router";
 
 export default function ProductPage() {
+	const {
+		query: { slug },
+	} = useRouter();
+
 	return (
 		<>
 			<Divider className="mb-0" />
@@ -16,8 +21,8 @@ export default function ProductPage() {
 				<div className="pt-8">
 					<Breadcrumb />
 				</div>
-			   <ProductSingleDetails />
-				<RelatedProducts sectionHeading="text-related-products" />
+				<ProductSingleDetails />
+				<RelatedProducts sectionHeading="text-related-products" slug={slug} />
 				<Subscription />
 			</Container>
 		</>
