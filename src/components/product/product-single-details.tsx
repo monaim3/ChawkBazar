@@ -224,7 +224,7 @@ const ProductSingleDetails = () => {
     if (data) {
       const item = generateCartItem(data, attributes);
       addItemToCart(item, quantity);
-      console.log("cart item", item);
+
     }
   };
 

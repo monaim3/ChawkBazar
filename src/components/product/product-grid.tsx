@@ -76,7 +76,6 @@ export const ProductGrid: FC<ProductGridProps> = ({ className = "" }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
   const { query } = router;
-  console.log("Router Query:", router.query.category); // Debugging line to check router query
   const {
     isFetching,
     isFetchingNextPage,

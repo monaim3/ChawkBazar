@@ -11,15 +11,13 @@ interface MenuProps {
 }
 
 const HeaderMenu: React.FC<MenuProps> = ({ data, className }) => {
-  console.log("Header Menu Data:", data); 
   const { t } = useTranslation('menu');
   return (
     <nav className={classNames(`headerMenu flex w-full relative`, className)}>
       {data?.map((item: any) => (
         <div
-          className={`menuItem group cursor-pointer py-7 ${
-            item.subCategories ? 'relative' : ''
-          }`}
+          className={`menuItem group cursor-pointer py-7 ${item.subCategories ? 'relative' : ''
+            }`}
           key={item.id}
         >
           <Link

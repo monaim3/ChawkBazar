@@ -13,7 +13,6 @@ const CartTray = () => {
         amount: total,
         currencyCode: 'USD',
     });
-    console.log("cartTotal", cartTotal);
     return (
         <>
             <div

@@ -28,6 +28,7 @@ import BestSelling from "@components/product/best-selling";
 import CartTray from "@components/common/cartTray";
 import VideoSection from "@components/common/video-section";
 import FeatureBanner from "@components/common/feature-banner";
+import Hero from "@components/common/hero";
 
 export default function Home() {
   return (
@@ -45,6 +46,7 @@ export default function Home() {
       <VideoSection />
       <FeatureBanner />
       {/* <BannerSliderBlock /> */}
+      <Hero></Hero>
       <Container>
         {/* <CategoryBlock
           sectionHeading="text-shop-by-category"

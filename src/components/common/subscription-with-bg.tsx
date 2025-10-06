@@ -39,7 +39,6 @@ const SubscriptionWithBg: React.FC<Props> = ({
   const { t } = useTranslation();
   const { title, description, buttonText } = data;
   async function onSubmit(input: FormValues) {
-    console.log(input, 'data');
   }
   return (
     <div
@@ -90,11 +89,10 @@ const SubscriptionWithBg: React.FC<Props> = ({
               ? 'url(/assets/images/subscription-bg-reverse.png)'
               : 'url(/assets/images/subscription-bg.png)',
         }}
-        className={`hidden z-0 xl:block bg-no-repeat ${
-          dir === 'rtl'
+        className={`hidden z-0 xl:block bg-no-repeat ${dir === 'rtl'
             ? 'bg-left 2xl:-left-12 3xl:left-0'
             : 'bg-right xl:-right-24 2xl:-right-20 3xl:right-0'
-        } bg-contain xl:bg-cover 3xl:bg-contain absolute h-full w-full top-0`}
+          } bg-contain xl:bg-cover 3xl:bg-contain absolute h-full w-full top-0`}
       />
     </div>
   );

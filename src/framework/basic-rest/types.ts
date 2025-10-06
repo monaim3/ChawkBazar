@@ -217,3 +217,13 @@ export type QueryOptionsTypes = {
   [key: string]: any;
 };
 
+export interface image {
+  id: number
+  image: string
+}
+export interface Allbanner {
+  typeId: number;
+  type: string;
+  images: image[] | null;
+
+}

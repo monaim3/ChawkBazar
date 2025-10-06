@@ -440,7 +440,7 @@ export default function ProductPopup() {
 
     const item = generateCartItem(data!, attributes);
     addItemToCart(item, quantity);
-    console.log("cart item", item);
+
   };
 
   // Navigation
