@@ -29,6 +29,7 @@ import CartTray from "@components/common/cartTray";
 import VideoSection from "@components/common/video-section";
 import FeatureBanner from "@components/common/feature-banner";
 import Hero from "@components/common/hero";
+import Threebanner from './../components/common/threebanner';
 
 export default function Home() {
   return (
@@ -47,6 +48,7 @@ export default function Home() {
       <FeatureBanner />
       {/* <BannerSliderBlock /> */}
       <Hero></Hero>
+      <Threebanner></Threebanner>
       <Container>
         {/* <CategoryBlock
           sectionHeading="text-shop-by-category"
