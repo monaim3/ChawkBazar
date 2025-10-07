@@ -17,6 +17,7 @@ import SearchProduct from "@components/common/search-product";
 import Scrollbar from "@components/common/scrollbar";
 import SearchResultLoader from "@components/ui/loaders/search-result-loader";
 import { useCategories } from "@framework/newCategories";
+import { useProducts } from "@framework/searchapi";
 
 const AuthMenu = dynamic(() => import("./auth-menu"), { ssr: false });
 const CartButton = dynamic(() => import("@components/cart/cart-button"), {
@@ -32,11 +33,9 @@ const Header: React.FC = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useAddActiveScroll(siteHeaderRef);
+  const { data: searchResults, isLoading } = useProducts(searchText);
 
-  const { data: searchResults, isLoading } = useSearchQuery({
-    text: searchText,
-  });
-   const { data: categories = [], isLoading: isLoadingCategories } = useCategories();
+  const { data: categories = [], isLoading: isLoadingCategories } = useCategories();
 
   function handleLogin() {
     setModalView("LOGIN_VIEW");

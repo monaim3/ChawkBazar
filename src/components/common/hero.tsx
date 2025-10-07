@@ -1,9 +1,10 @@
 import Logo from "@components/ui/logo";
 import { useAllbanner } from "@framework/allbanner";
+import Loading from "./Loading";
 
 export default function Hero() {
     const { data, isLoading, error } = useAllbanner();
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <Loading />;
     if (error) return <div>Error loading banners</div>;
 
 

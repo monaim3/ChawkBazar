@@ -1,35 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
+import { useProductsQuery } from "@framework/product/get-all-products";
 import { useUI } from "@contexts/ui.context";
-import type { Product } from "@framework/types";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { AiOutlineStar } from "react-icons/ai";
-import Loading from "./Loading";
-import { ROUTES } from "@utils/routes";
-
-/** ---------- Types ---------- */
-export type GenericProduct = {
-    id: number | string;
-    name: string;
-    description?: string;
-    image: string;
-    basePrice?: string | number;
-    finalPrice?: string | number;
-    category?: { id: number | string; name: string };
-    gallery?: { image: string; colorCode: string }[];
-    variations?: {
-        colors?: { id: number | string; colorCode: string; value: string }[];
-        sizes?: { id: number | string; value: string }[];
-    };
-};
 
 /** ---------- Helpers ---------- */
 const parsePrice = (v: string | number | undefined): number => {
@@ -40,9 +18,8 @@ const parsePrice = (v: string | number | undefined): number => {
     return Number.isFinite(num) ? num : 0;
 };
 
-/** ---------- Styled Product Card ---------- */
-const StyledProductCard = ({ product }: { product: GenericProduct }) => {
-
+/** ---------- Product Card Component ---------- */
+const ProductCard = ({ product }: { product: any }) => {
     const { setModalData, setModalView, openModal } = useUI();
 
     const basePrice = parsePrice(product.basePrice);
@@ -55,25 +32,19 @@ const StyledProductCard = ({ product }: { product: GenericProduct }) => {
         : 0;
 
     const openQuickView = () => {
-        // setModalData({ data: product as unknown as Product });
         setModalData({ id: product.id });
         setModalView("PRODUCT_VIEW");
         openModal();
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden group hover:shadow-lg transition-shadow duration-300 relative">
+        <div className="bg-white rounded-lg shadow-md border border-gray-100 overflow-hidden group hover:shadow-lg transition-shadow duration-300 relative">
             <div className="relative aspect-[4/5] overflow-hidden bg-gray-50">
-                <Link
-                    href={`${ROUTES.PRODUCT}/${product?.id ?? '/'}`}
-                    className="flex items-center justify-start w-full h-auto group"
-                >
-                    <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                </Link>
+                <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
                 {product.category && (
                     <div className="absolute top-3 left-3 bg-gray-800 text-white text-xs px-2 py-1 rounded">
                         {product.category.name}
@@ -122,70 +93,43 @@ const StyledProductCard = ({ product }: { product: GenericProduct }) => {
     );
 };
 
-/** ---------- Generic Carousel Component ---------- */
-type CarouselProps = {
-    title?: string;
-    viewAllLink?: string;
-    fetcher: () => Promise<GenericProduct[]>;
-    slidesPerView?: { [key: number]: number };
-    loop?: boolean;
-    autoplayDelay?: number;
-};
+export default function CategoryoneSlider({ id }: any) {
+    const { data, error } = useProductsQuery({ limit: 10, id } as any);
 
-export const GenericCarousel = ({
-    title = "Products",
-    viewAllLink,
-    fetcher,
-    slidesPerView = { 480: 2, 768: 3, 1024: 4 },
-    loop = true,
-    autoplayDelay = 8000,
-}: CarouselProps) => {
-    const { data: products = [], isLoading, error } = useQuery({
-        queryKey: [title],
-        queryFn: fetcher,
-    });
+    console.log("categoryOneSlider", data?.pages?.[0]?.data);
+    const dataList = data?.pages?.[0]?.data;
 
-    if (isLoading) return <Loading></Loading>
-    console.log("fetcher", fetcher)
-    const swiperBreakpoints = Object.fromEntries(
-        Object.entries(slidesPerView).map(([width, slides]) => [
-            width,
-            { slidesPerView: slides },
-        ])
-    );
+    if (!dataList || dataList.length === 0) {
+        return null;
+    }
+
+    const swiperBreakpoints = {
+        480: { slidesPerView: 2 },
+        768: { slidesPerView: 3 },
+        1024: { slidesPerView: 4 },
+    };
+
     return (
-        <section className="py-8">
+        <section className="">
             <div className="container mx-auto px-4 md:px-8 lg:px-6">
-                <div className="flex items-center justify-between mb-8">
-                    <div className="flex-1 text-center">
-                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-                            {title}
-                        </h2>
-                        <div className="w-32 h-0.5 bg-gray-800 mx-auto"></div>
-                    </div>
-                    {viewAllLink && (
-                        <Link href={viewAllLink} className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
-                            View All
-                        </Link>
-                    )}
-                </div>
+
 
                 <div className="relative">
                     <Swiper
                         modules={[Autoplay, Navigation]}
-                        loop={loop}
+                        loop={true}
                         navigation={{
                             prevEl: '.swiper-button-prev-custom',
                             nextEl: '.swiper-button-next-custom',
                         }}
-                        autoplay={{ delay: autoplayDelay, disableOnInteraction: false }}
+                        autoplay={{ delay: 8000, disableOnInteraction: false }}
                         spaceBetween={16}
                         slidesPerView={1}
                         breakpoints={swiperBreakpoints}
                     >
-                        {products?.map((product) => (
+                        {dataList.map((product: any) => (
                             <SwiperSlide key={product.id}>
-                                <StyledProductCard product={product} />
+                                <ProductCard product={product} />
                             </SwiperSlide>
                         ))}
                     </Swiper>
@@ -207,15 +151,13 @@ export const GenericCarousel = ({
             </div>
 
             <style jsx>{`
-        .line-clamp-2 {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-      `}</style>
+                .line-clamp-2 {
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+            `}</style>
         </section>
     );
-};
-
-
+}

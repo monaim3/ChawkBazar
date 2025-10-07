@@ -19,7 +19,6 @@ export default function BestSelling() {
         const data = await res.json();
         return data.data;
     };
-
     return (
         <GenericCarousel
             title="Best Selling Products"

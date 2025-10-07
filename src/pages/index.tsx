@@ -30,6 +30,9 @@ import VideoSection from "@components/common/video-section";
 import FeatureBanner from "@components/common/feature-banner";
 import Hero from "@components/common/hero";
 import Threebanner from './../components/common/threebanner';
+import Categoriesone from "@components/common/categoriesone";
+import CategoriesTwo from "@components/common/categoriestwo";
+import CategoriesThree from "@components/common/categoriesthree";
 
 export default function Home() {
   return (
@@ -47,8 +50,11 @@ export default function Home() {
       <VideoSection />
       <FeatureBanner />
       {/* <BannerSliderBlock /> */}
+      {/* <CategoriesThree></CategoriesThree> */}
       <Hero></Hero>
       <Threebanner></Threebanner>
+      <Categoriesone></Categoriesone>
+      <CategoriesTwo></CategoriesTwo>
       <Container>
         {/* <CategoryBlock
           sectionHeading="text-shop-by-category"

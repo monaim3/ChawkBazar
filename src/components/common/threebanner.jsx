@@ -8,7 +8,6 @@ export default function Threebanner() {
 
 
     const src1 = data?.[1]?.images
-    console.log("src2", src1[0])
     return (
         <section className="container mx-auto px-4 md:px-8 lg:px-6">
             {/* Fixed Background Image */}

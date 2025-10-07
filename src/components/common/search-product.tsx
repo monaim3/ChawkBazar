@@ -13,15 +13,16 @@ const SearchProduct: React.FC<SearchProductProps> = ({ item }) => {
     baseAmount: item.price,
     currencyCode: 'USD',
   });
+
   return (
     <Link
-      href={`${ROUTES.PRODUCT}/${item?.slug}`}
+      href={`${ROUTES.PRODUCT}/${item?.id ?? '/'}`}
       className="flex items-center justify-start w-full h-auto group"
     >
       <div className="relative flex flex-shrink-0 w-24 h-24 overflow-hidden bg-gray-200 rounded-md cursor-pointer ltr:mr-4 rtl:ml-4">
         <Image
           src={
-            item?.image?.original ?? '/assets/placeholder/search-product.svg'
+            item?.image ?? '/assets/placeholder/search-product.svg'
           }
           width={96}
           height={96}
