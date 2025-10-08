@@ -227,3 +227,18 @@ export interface Allbanner {
   images: image[] | null;
 
 }
+
+export interface Video {
+  id: number;
+  title: string;
+  url: string;
+  sortOrder: number;
+}
+
+export interface Organization {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+}

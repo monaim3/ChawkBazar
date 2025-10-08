@@ -10,20 +10,27 @@ export default function Threebanner() {
     const src1 = data?.[1]?.images
     return (
         <section className="container mx-auto px-4 md:px-8 lg:px-6">
-            {/* Fixed Background Image */}
-            <div className=" flex gap-5 py-8">
-                <div
-                    className=" bg-cover bg-center "
-                >
-                    <img src={src1[1].image} alt="" />
-
+            <div className="flex flex-col md:flex-row gap-5 py-8">
+                <div className="w-full ">
+                    <img
+                        src={src1[1].image}
+                        alt="Main banner"
+                        className="w-full h-auto md:h-full object-cover rounded-md"
+                    />
                 </div>
-                <div className="flex flex-col gap-5">
-                    <img src={src1[0].image} alt="bannerimg" className="h-72 rounded-md" />
-                    <img src={src1[2].image} alt="" className="h-72" />
+                <div className="w-full md:w-1/2 flex flex-col gap-5">
+                    <img
+                        src={src1[0].image}
+                        alt="Banner 1"
+                        className="w-full h-64 md:h-72 object-cover rounded-md"
+                    />
+                    <img
+                        src={src1[2].image}
+                        alt="Banner 2"
+                        className="w-full h-64 md:h-72 object-cover rounded-md"
+                    />
                 </div>
             </div>
-
         </section>
     );
 }

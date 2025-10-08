@@ -11,17 +11,17 @@ const CategoriesTwo = () => {
     return (
         <section className="py-8">
             <div className="container mx-auto px-4 md:px-8 lg:px-6">
-                <div className="flex gap-4">
+                <div className="flex flex-col md:flex-row gap-4">
                     <div className="flex-1 min-w-0">
                         <CategoryoneSlider id={id} />
                     </div>
                     <div className="flex-shrink-0">
                         <div className="rounded-lg overflow-hidden">
-                            <div className="relative aspect-[4/5] w-full ">
+                            <div className="relative  w-full ">
                                 <img
                                     src={src}
                                     alt="Category"
-                                    className="w-full h-[400px] object-cover"
+                                    className="w-full h-[300px] md:h-[400px] md:w-[320px] object-cover"
                                 />
                             </div>
                         </div>

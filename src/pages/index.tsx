@@ -26,13 +26,13 @@ import CategoriesSection from "@components/common/CategoriesSection";
 import NewArrivalSection from "@components/product/new-arrival";
 import BestSelling from "@components/product/best-selling";
 import CartTray from "@components/common/cartTray";
-import VideoSection from "@components/common/video-section";
 import FeatureBanner from "@components/common/feature-banner";
 import Hero from "@components/common/hero";
 import Threebanner from './../components/common/threebanner';
 import Categoriesone from "@components/common/categoriesone";
 import CategoriesTwo from "@components/common/categoriestwo";
 import CategoriesThree from "@components/common/categoriesthree";
+import Video from "@components/common/video";
 
 export default function Home() {
   return (
@@ -47,7 +47,7 @@ export default function Home() {
       <NewArrivalSection />
       <BestSelling />
       <CartTray />
-      <VideoSection />
+      <Video></Video>
       <FeatureBanner />
       {/* <BannerSliderBlock /> */}
       {/* <CategoriesThree></CategoriesThree> */}
@@ -55,6 +55,7 @@ export default function Home() {
       <Threebanner></Threebanner>
       <Categoriesone></Categoriesone>
       <CategoriesTwo></CategoriesTwo>
+
       <Container>
         {/* <CategoryBlock
           sectionHeading="text-shop-by-category"
