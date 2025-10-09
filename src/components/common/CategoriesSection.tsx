@@ -88,20 +88,22 @@ const CategoriesSection: React.FC = () => {
           <button
             onClick={prevSlide}
             disabled={isTransitioning}
-            className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-white/95 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 disabled:opacity-50"
+            className="absolute left-0 md:left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-10 md:h-10 p-2 bg-white/95 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 disabled:opacity-50"
           >
             <IoChevronBack className="w-5 h-5 md:w-6 md:h-6 text-gray-600" />
           </button>
           <button
             onClick={nextSlide}
             disabled={isTransitioning}
-            className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-white/95 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 disabled:opacity-50"
+            className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-10 md:h-10 p-2 bg-white/95 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 disabled:opacity-50"
           >
             <IoChevronForward className="w-5 h-5 md:w-6 md:h-6 text-gray-600" />
           </button>
 
+
+
           {/* Carousel */}
-          <div className="overflow-hidden rounded-lg mx-8 md:mx-16">
+          <div className="overflow-hidden rounded-lg ">
             <div
               ref={carouselRef}
               className={`flex ${isTransitioning
@@ -141,7 +143,7 @@ const CategoriesSection: React.FC = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm p-3 md:p-4">
+                      <div className="absolute bottom-0 left-0 right-0 bg-white/95  p-3 md:p-4">
                         <h3 className="text-xs md:text-sm font-medium text-gray-800 text-center uppercase tracking-wide">
                           {category.name}
                         </h3>

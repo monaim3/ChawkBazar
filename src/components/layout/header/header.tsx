@@ -153,7 +153,7 @@ const Header: React.FC = () => {
           <div className="flex items-center gap-4 lg:gap-6 flex-1 justify-end">
             {/* Phone Icon */}
             <button className="flex items-center justify-center p-2 hover:bg-gray-50 rounded-md transition-colors duration-200 focus:outline-none">
-              <BiSolidPhoneCall className="w-5 h-5 text-gray-600" />
+              <BiSolidPhoneCall className="w-6 h-6 text-gray-600" />
             </button>
 
             {/* Shopping Bag Count */}

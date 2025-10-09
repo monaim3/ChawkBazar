@@ -225,7 +225,6 @@ export interface Allbanner {
   typeId: number;
   type: string;
   images: image[] | null;
-
 }
 
 export interface Video {
@@ -241,4 +240,10 @@ export interface Organization {
   address: string;
   phone: string;
   email: string;
+}
+
+export interface DeliveryCharge {
+  id: number;
+  name: string;
+  delivery_cost: number;
 }

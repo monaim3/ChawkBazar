@@ -43,7 +43,6 @@ const BottomNavigation: React.FC = () => {
   const { locale } = useRouter();
   const dir = getDirection(locale);
   const contentWrapperCSS = dir === "ltr" ? { left: 0 } : { right: 0 };
-
   return (
     <>
       <div className="lg:hidden fixed z-10 bottom-0 flex items-center justify-between shadow-bottomNavigation text-gray-700 body-font bg-white w-full h-14 sm:h-16 px-4 md:px-8">

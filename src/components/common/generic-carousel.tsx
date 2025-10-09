@@ -62,11 +62,11 @@ const StyledProductCard = ({ product }: { product: GenericProduct }) => {
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden group hover:shadow-lg transition-shadow duration-300 relative">
-            <div className="relative aspect-[4/5] overflow-hidden bg-gray-50">
+        <div className="bg-gray-200 rounded-lg shadow-xl border border-gray-100 overflow-hidden group hover:shadow-lg transition-shadow duration-300 relative">
+            <div className="relative overflow-hidden bg-gray-50 h-96">
                 <Link
                     href={`${ROUTES.PRODUCT}/${product?.id ?? '/'}`}
-                    className="flex items-center justify-start w-full h-auto group"
+                    className="flex items-center justify-start w-full h-full group"
                 >
                     <img
                         src={product.image}
@@ -84,15 +84,7 @@ const StyledProductCard = ({ product }: { product: GenericProduct }) => {
                         -{discountPercentage}%
                     </div>
                 )}
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        openQuickView();
-                    }}
-                    className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900 transition-colors duration-300"
-                >
-                    Add To Cart
-                </button>
+
             </div>
             <div className="p-4">
                 <div className="flex items-center gap-1 mb-2">
@@ -117,6 +109,18 @@ const StyledProductCard = ({ product }: { product: GenericProduct }) => {
                         </span>
                     )}
                 </div>
+
+            </div>
+            <div className="px-4 pb-4 pt-0 flex items-center ">
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        openQuickView();
+                    }}
+                    className=" bg-gray-900 text-white px-6 py-2 hover:bg-[#ff8029] rounded text-sm transition-colors duration-300"
+                >
+                    Add To Cart
+                </button>
             </div>
         </div>
     );
@@ -146,7 +150,6 @@ export const GenericCarousel = ({
     });
 
     if (isLoading) return <Loading></Loading>
-    console.log("fetcher", fetcher)
     const swiperBreakpoints = Object.fromEntries(
         Object.entries(slidesPerView).map(([width, slides]) => [
             width,

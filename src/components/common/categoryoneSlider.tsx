@@ -8,6 +8,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { AiOutlineStar } from "react-icons/ai";
+import Link from "next/link";
+import { ROUTES } from "@utils/routes";
 
 /** ---------- Helpers ---------- */
 const parsePrice = (v: string | number | undefined): number => {
@@ -39,12 +41,17 @@ const ProductCard = ({ product }: { product: any }) => {
 
     return (
         <div className="bg-white rounded-lg shadow-md border border-gray-100 overflow-hidden group hover:shadow-lg transition-shadow duration-300 relative">
-            <div className="relative aspect-[4/5] overflow-hidden bg-gray-50">
-                <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+            <div className="relative overflow-hidden bg-gray-50 h-96">
+                <Link
+                    href={`${ROUTES.PRODUCT}/${product?.id ?? '/'}`}
+                    className="flex items-center justify-start w-full h-full group"
+                >
+                    <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                </Link>
                 {product.category && (
                     <div className="absolute top-3 left-3 bg-gray-800 text-white text-xs px-2 py-1 rounded">
                         {product.category.name}
@@ -55,7 +62,7 @@ const ProductCard = ({ product }: { product: any }) => {
                         -{discountPercentage}%
                     </div>
                 )}
-                <button
+                {/* <button
                     onClick={(e) => {
                         e.stopPropagation();
                         openQuickView();
@@ -63,7 +70,7 @@ const ProductCard = ({ product }: { product: any }) => {
                     className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-2 rounded text-sm hover:bg-gray-900 transition-colors duration-300"
                 >
                     Add To Cart
-                </button>
+                </button> */}
             </div>
             <div className="p-4">
                 <div className="flex items-center gap-1 mb-2">
@@ -76,7 +83,9 @@ const ProductCard = ({ product }: { product: any }) => {
                     <span className="text-xs text-gray-500">| 0.0</span>
                 </div>
                 <h3 className="text-sm font-semibold text-gray-800 mb-3 line-clamp-2 leading-5">
-                    {product.name}
+                    {product.name.length > 20
+                        ? product.name.substring(0, 50) + "..."
+                        : product.name}
                 </h3>
                 <div className="flex items-center gap-2">
                     <span className="text-lg font-bold text-gray-900">
@@ -88,6 +97,17 @@ const ProductCard = ({ product }: { product: any }) => {
                         </span>
                     )}
                 </div>
+            </div>
+            <div className="px-4 pb-4 pt-0 flex items-center ">
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        openQuickView();
+                    }}
+                    className=" bg-gray-900 text-white px-6 py-2 hover:bg-[#ff8029] rounded text-sm transition-colors duration-300"
+                >
+                    Add To Cart
+                </button>
             </div>
         </div>
     );
@@ -111,7 +131,7 @@ export default function CategoryoneSlider({ id }: any) {
 
     return (
         <section className="">
-            <div className="container mx-auto px-4 md:px-8 lg:px-6">
+            <div className="container mx-auto ">
 
 
                 <div className="relative">

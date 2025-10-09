@@ -24,7 +24,7 @@ const defaultValues = {
 };
 
 const Subscription: React.FC<Props> = ({
-  className = 'px-5 sm:px-8 md:px-16 2xl:px-24',
+  // className = 'px-5 sm:px-8 md:px-16 2xl:px-24',
   disableBorderRadius = false,
 }) => {
   const {
@@ -41,7 +41,7 @@ const Subscription: React.FC<Props> = ({
   }
   return (
     <div
-      className={`${className} flex flex-col xl:flex-row justify-center xl:justify-between items-center rounded-lg bg-gray-200 py-10 md:py-14 lg:py-16`}
+      className={` flex flex-col xl:flex-row justify-center xl:justify-between items-center rounded-lg bg-gray-200 container mx-auto px-4 md:px-8 lg:px-8 py-10`}
     >
       <div className="lg:-mt-2 xl:-mt-0.5 text-center ltr:xl:text-left rtl:xl:text-right mb-7 md:mb-8 lg:mb-9 xl:mb-0">
         <Text
