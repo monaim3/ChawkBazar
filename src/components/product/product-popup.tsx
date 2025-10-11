@@ -463,7 +463,7 @@ export default function ProductPopup() {
   const { data, isLoading } = useQuery<Product>({
     queryKey: ["product", id],
     queryFn: async () => {
-      const res = await fetch(`https://app.cirqlsync.com/syncing-application/syncapi/product/${id}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/${id}`);
       return await res.json();
     },
     enabled: !!id,

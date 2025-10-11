@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 
 const fetchCategories = async (): Promise<Category[]> => {
-  const res = await fetch("https://app.cirqlsync.com/syncing-application/syncapi/product/category?orgID=52");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/product/category?orgID=2`);
   if (!res.ok) throw new Error("Failed to fetch categories");
   const data = await res.json();
   return data.data;

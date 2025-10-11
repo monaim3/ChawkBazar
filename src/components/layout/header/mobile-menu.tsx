@@ -14,6 +14,7 @@ import {
 } from 'react-icons/io5';
 import { useTranslation } from 'next-i18next';
 import { useCategories } from '@framework/newCategories';
+import Loading from '@components/common/Loading';
 
 const social = [
   {
@@ -67,49 +68,90 @@ export default function MobileMenu() {
     setActiveMenus(newActiveMenus);
   };
 
-  const ListMenu = ({
-    dept,
-    data,
-    hasSubMenu,
-    menuName,
-    menuIndex,
-    className = '',
-  }: any) =>
-    data.name && (
-      <li className={`mb-0.5 ${className}`}>
-        <div className="relative flex items-center justify-between">
-          <Link
-            href={data.slug || '/'}
-            className="w-full text-[15px] menu-item relative py-3 ltr:pl-5 rtl:pr-5 ltr:md:pl-6 rtl:md:pr-6 ltr:pr-4 rtl:pl-4 transition duration-300 ease-in-out"
-          >
-            <span className="block w-full" onClick={closeSidebar}>
-              {t(data.name)}
-            </span>
-          </Link>
-          {hasSubMenu && (
-            <div
-              className="absolute top-0 flex items-center justify-end w-full h-full text-lg cursor-pointer ltr:left-0 rtl:right-0 ltr:pr-5 rtl:pl-5"
-              onClick={() => handleArrowClick(menuName)}
-            >
-              <IoIosArrowDown
-                className={`transition duration-200 ease-in-out transform text-heading ${
-                  activeMenus.includes(menuName) ? '-rotate-180' : 'rotate-0'
-                }`}
-              />
-            </div>
-          )}
-        </div>
+  // const ListMenu = ({
+  //   dept,
+  //   data,
+  //   hasSubMenu,
+  //   menuName,
+  //   menuIndex,
+  //   className = '',
+  // }: any) =>
+  //   data?.name? (
+  //     <li className={`mb-0.5 ${className}`}>
+  //       <div className="relative flex items-center justify-between">
+  //         <Link
+  //           href={data.slug ? `/${data.slug}` : '/'}
+  //           className="w-full text-[15px] menu-item relative py-3 ltr:pl-5 rtl:pr-5 ltr:md:pl-6 rtl:md:pr-6 ltr:pr-4 rtl:pl-4 transition duration-300 ease-in-out"
+  //         >
+  //           <span className="block w-full" onClick={closeSidebar}>
+  //              {t(data.name || 'menu')} 
+  //           </span>
+  //         </Link>
+  //         {hasSubMenu && (
+  //           <div
+  //             className="absolute top-0 flex items-center justify-end w-full h-full text-lg cursor-pointer ltr:left-0 rtl:right-0 ltr:pr-5 rtl:pl-5"
+  //             onClick={() => handleArrowClick(menuName)}
+  //           >
+  //             <IoIosArrowDown
+  //               className={`transition duration-200 ease-in-out transform text-heading ${
+  //                 activeMenus.includes(menuName) ? '-rotate-180' : 'rotate-0'
+  //               }`}
+  //             />
+  //           </div>
+  //         )}
+  //       </div>
+  //       {hasSubMenu && (
+  //         <SubMenu
+  //           dept={dept}
+  //           data={data.subMenu}
+  //           toggle={activeMenus.includes(menuName)}
+  //           menuIndex={menuIndex}
+  //         />
+  //       )}
+  //     </li>
+  //   );
+const ListMenu = ({
+  dept,
+  data,
+  hasSubMenu,
+  menuName,
+  menuIndex,
+  className = '',
+}: any) =>
+  data?.name ? (  // ✅ Check if name exists and is truthy
+    <li className={`mb-0.5 ${className}`}>
+      <div className="relative flex items-center justify-between">
+        <Link
+          href={data.slug ? `/${data.slug}` : '/'}  // ✅ Safe slug check
+          className="w-full text-[15px] menu-item relative py-3 ltr:pl-5 rtl:pr-5 ltr:md:pl-6 rtl:md:pr-6 ltr:pr-4 rtl:pl-4 transition duration-300 ease-in-out"
+        >
+          <span className="block w-full" onClick={closeSidebar}>
+            {t(data.name || 'menu')}  // ✅ Fallback value
+          </span>
+        </Link>
         {hasSubMenu && (
-          <SubMenu
-            dept={dept}
-            data={data.subMenu}
-            toggle={activeMenus.includes(menuName)}
-            menuIndex={menuIndex}
-          />
+          <div
+            className="absolute top-0 flex items-center justify-end w-full h-full text-lg cursor-pointer ltr:left-0 rtl:right-0 ltr:pr-5 rtl:pl-5"
+            onClick={() => handleArrowClick(menuName)}
+          >
+            <IoIosArrowDown
+              className={`transition duration-200 ease-in-out transform text-heading ${
+                activeMenus.includes(menuName) ? '-rotate-180' : 'rotate-0'
+              }`}
+            />
+          </div>
         )}
-      </li>
-    );
-
+      </div>
+      {hasSubMenu && data?.subCategories && (  // ✅ Check subCategories exists
+        <SubMenu
+          dept={dept}
+          data={data.subCategories}
+          toggle={activeMenus.includes(menuName)}
+          menuIndex={menuIndex}
+        />
+      )}
+    </li>
+  ) : null;  // ✅ Return null if name doesn't exist
   const SubMenu = ({ dept, data, toggle, menuIndex }: any) => {
     if (!toggle) {
       return null;
@@ -137,7 +179,11 @@ export default function MobileMenu() {
       </ul>
     );
   };
-
+  if (isLoadingCategories) {
+    return (
+      <Loading />
+    )
+  }
   return (
     <>
       <div className="flex flex-col justify-between w-full h-full">
@@ -156,7 +202,7 @@ export default function MobileMenu() {
         <Scrollbar className="flex-grow mb-auto menu-scrollbar">
           <div className="flex flex-col px-0 py-7 lg:px-2 text-heading">
             <ul className="mobileMenu">
-              {categories.map((menu, index) => {
+              {categories?.map((menu, index) => {
                 const dept: number = 1;
                 const menuName: string = `sidebar-menu-${dept}-${index}`;
 
@@ -178,13 +224,13 @@ export default function MobileMenu() {
         <div className="flex items-center justify-center flex-shrink-0 bg-white border-t border-gray-100 px-7 gap-x-1">
           {social?.map((item, index) => (
             <a
-              href={item.link}
-              className={`text-heading p-5 opacity-60 ltr:first:-ml-4 rtl:first:-mr-4 transition duration-300 ease-in hover:opacity-100 ${item.className}`}
+              href={item?.link}
+              className={`text-heading p-5 opacity-60 ltr:first:-ml-4 rtl:first:-mr-4 transition duration-300 ease-in hover:opacity-100 ${item?.className}`}
               target="_blank"
               key={index}
             >
-              <span className="sr-only">{t(`${item.title}`)}</span>
-              {item.icon}
+              <span className="sr-only">{t(`${item?.title}`)}</span>
+              {item?.icon}
             </a>
           ))}
         </div>

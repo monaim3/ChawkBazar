@@ -56,10 +56,10 @@ export const CategoryFilter = () => {
         {data?.map((item: any) => (
           <CheckBox
             key={item.id}
-            label={item.name}
-            name={item.name.toLowerCase()}
-            checked={formState.includes(item.slug)}
-            value={item.slug}
+            label={item?.name}
+            name={item?.name.toLowerCase()}
+            checked={formState.includes(item?.slug)}
+            value={item?.slug}
             onChange={handleItemClick}
           />
         ))}

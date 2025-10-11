@@ -140,7 +140,7 @@ const ProductSingleDetails = () => {
     queryKey: ["product", slug],
     queryFn: async () => {
       const res = await fetch(
-        `https://app.cirqlsync.com/syncing-application/syncapi/product/${slug}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/product/${slug}`
       );
       return await res.json();
     },

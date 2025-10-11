@@ -47,14 +47,14 @@ const ProductCard = ({ product }: { product: any }) => {
                     className="flex items-center justify-start w-full h-full group"
                 >
                     <img
-                        src={product.image}
-                        alt={product.name}
+                        src={product?.image}
+                        alt={product?.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                 </Link>
                 {product.category && (
                     <div className="absolute top-3 left-3 bg-gray-800 text-white text-xs px-2 py-1 rounded">
-                        {product.category.name}
+                        {product?.category?.name}
                     </div>
                 )}
                 {discountPercentage > 0 && (
@@ -83,9 +83,9 @@ const ProductCard = ({ product }: { product: any }) => {
                     <span className="text-xs text-gray-500">| 0.0</span>
                 </div>
                 <h3 className="text-sm font-semibold text-gray-800 mb-3 line-clamp-2 leading-5">
-                    {product.name.length > 20
+                    {product.name && product.name.length > 20
                         ? product.name.substring(0, 50) + "..."
-                        : product.name}
+                        : product.name || 'Untitled Product'}
                 </h3>
                 <div className="flex items-center gap-2">
                     <span className="text-lg font-bold text-gray-900">

@@ -14,7 +14,7 @@ export default function NewArrivalSection() {
     // Fetcher function inside the component
     const fetchNewArrivals = async (): Promise<GenericProduct[]> => {
         const res = await fetch(
-            "https://app.cirqlsync.com/syncing-application/syncapi/product/new-arrival?orgID=2"
+            `${process.env.NEXT_PUBLIC_BASE_URL}/product/new-arrival?orgID=2`
         );
         const data = await res.json();
         return data.data;

@@ -18,6 +18,7 @@ import Scrollbar from "@components/common/scrollbar";
 import SearchResultLoader from "@components/ui/loaders/search-result-loader";
 import { useCategories } from "@framework/newCategories";
 import { useProducts } from "@framework/searchapi";
+import Loading from "@components/common/Loading";
 
 const AuthMenu = dynamic(() => import("./auth-menu"), { ssr: false });
 const CartButton = dynamic(() => import("@components/cart/cart-button"), {
@@ -67,7 +68,10 @@ const Header: React.FC = () => {
       setIsSearchFocused(false);
     }, 200);
   }
-
+  if (isLoadingCategories) {
+    return <Loading />
+  }
+  const validCategories = categories.filter(cat => cat?.id && cat?.name);
   return (
     <header
       id="siteHeader"
@@ -111,7 +115,7 @@ const Header: React.FC = () => {
               <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-96 overflow-hidden z-50">
                 <Scrollbar className="max-h-96">
                   <div>
-                    {isLoading ? (
+                    {/* {isLoading ? (
                       <div className="p-4">
                         {Array.from({ length: 3 }).map((_, idx) => (
                           <SearchResultLoader
@@ -136,6 +140,28 @@ const Header: React.FC = () => {
                     ) : (
                       <div className="p-4 text-gray-500 text-sm">
                         {`No results found for "${searchText}"`}
+                      </div>
+                    )} */}
+                   
+                    {isLoading ? (
+                      <div className="p-4">
+                        {Array.from({ length: 3 }).map((_, idx) => (
+                          <SearchResultLoader key={`search-loader-${idx}`} />
+                        ))}
+                      </div>
+                    ) : searchResults?.length ? (
+                      searchResults.map((item: any, index: number) => (
+                        <div
+                          key={item?.id || `result-${index}`}
+                          className="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer last:border-b-0"
+                          onClick={() => clearSearch()}
+                        >
+                          {item && <SearchProduct item={item} />}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="p-4 text-gray-500 text-sm">
+                        No results found
                       </div>
                     )}
                   </div>
@@ -179,7 +205,7 @@ const Header: React.FC = () => {
       <div className="border-t border-gray-100 bg-white hidden lg:block">
         <div className="container mx-auto px-4 md:px-8 lg:px-6 ">
           <HeaderMenu
-            data={categories}
+            data={validCategories}
             className="flex justify-center items-center h-12 lg:h-14"
           />
         </div>

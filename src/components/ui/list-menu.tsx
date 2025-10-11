@@ -18,14 +18,14 @@ const ListMenu = ({
   return (
     <li className={cn(!hasMegaMenu ? "group relative" : "")}>
       <Link
-        href={data.path}
+        href={data?.path}
         className="flex items-center py-2 ltr:pl-5 rtl:pr-5 ltr:xl:pl-7 rtl:xl:pr-7 ltr:pr-3 rtl:pl-3 ltr:xl:pr-3.5 rtl:xl:pl-3.5 hover:text-heading hover:bg-gray-300"
       >
-        {data.icon && (
-          <span className="inline-flex ltr:mr-2 rtl:ml-2">{data.icon}</span>
+        {data?.icon && (
+          <span className="inline-flex ltr:mr-2 rtl:ml-2">{data?.icon}</span>
         )}
-        {t(data.label)}
-        {data.subMenu && (
+        {t(data?.label)}
+        {data?.subMenu && (
           <span className="text-sm mt-0.5 shrink-0 ltr:ml-auto rtl:mr-auto">
             <IoIosArrowForward className="transition duration-300 ease-in-out text-body group-hover:text-black" />
           </span>
@@ -43,15 +43,15 @@ const ListMenu = ({
             <div className="grid grid-cols-3 gap-3 p-6 2xl:py-8 2xl:px-7 3xl:grid-cols-3 justify-items-center">
               {hasBrands.map((brand: any) => (
                 <Link
-                  href={brand.path}
+                  href={brand?.path}
                   key={brand.id}
                   className="bg-gray-200 border border-gray-300 rounded-md"
                 >
                   <Image
-                    src={brand.icon.src}
+                    src={brand?.icon?.src}
                     height={60}
                     width={150}
-                    alt={brand.label}
+                    alt={brand?.label}
                   />
                 </Link>
               ))}
