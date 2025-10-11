@@ -81,7 +81,6 @@ const CheckoutCard: React.FC<CheckoutCardProps> = ({ selectedCity }) => {
   const { items, total, isEmpty } = useCart();
   const { data: deliveryCharge } = useDeliveryCharge();
   const { t } = useTranslation("common");
-
   // Find delivery cost based on selected city
   const deliveryCost = deliveryCharge?.find(
     (city) => city.name === selectedCity

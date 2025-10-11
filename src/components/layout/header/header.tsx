@@ -79,7 +79,7 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16 sm:h-20 lg:h-24 max-w-[1920px] mx-auto">
 
           {/* Left Side - Search Bar */}
-          <div className="flex-1 max-w-md relative">
+          <div className="flex-1 max-w-md relative hidden lg:block">
             <form
               className="relative w-full"
               noValidate
@@ -145,7 +145,7 @@ const Header: React.FC = () => {
           </div>
 
           {/* Center - Logo */}
-          <div className="flex-1 flex justify-center mx-8">
+          <div className="lg:flex-1 flex justify-center mx-0 lg:mx-8">
             <Logo />
           </div>
 

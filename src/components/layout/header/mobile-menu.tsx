@@ -13,6 +13,7 @@ import {
   IoClose,
 } from 'react-icons/io5';
 import { useTranslation } from 'next-i18next';
+import { useCategories } from '@framework/newCategories';
 
 const social = [
   {
@@ -50,6 +51,7 @@ export default function MobileMenu() {
   const { site_header } = siteSettings;
   const { closeSidebar } = useUI();
   const { t } = useTranslation('menu');
+    const { data: categories = [], isLoading: isLoadingCategories } = useCategories();
   const handleArrowClick = (menuName: string) => {
     let newActiveMenus = [...activeMenus];
 
@@ -73,15 +75,15 @@ export default function MobileMenu() {
     menuIndex,
     className = '',
   }: any) =>
-    data.label && (
+    data.name && (
       <li className={`mb-0.5 ${className}`}>
         <div className="relative flex items-center justify-between">
           <Link
-            href={data.path}
+            href={data.slug || '/'}
             className="w-full text-[15px] menu-item relative py-3 ltr:pl-5 rtl:pr-5 ltr:md:pl-6 rtl:md:pr-6 ltr:pr-4 rtl:pl-4 transition duration-300 ease-in-out"
           >
             <span className="block w-full" onClick={closeSidebar}>
-              {t(`${data.label}`)}
+              {t(data.name)}
             </span>
           </Link>
           {hasSubMenu && (
@@ -154,7 +156,7 @@ export default function MobileMenu() {
         <Scrollbar className="flex-grow mb-auto menu-scrollbar">
           <div className="flex flex-col px-0 py-7 lg:px-2 text-heading">
             <ul className="mobileMenu">
-              {site_header.mobileMenu.map((menu, index) => {
+              {categories.map((menu, index) => {
                 const dept: number = 1;
                 const menuName: string = `sidebar-menu-${dept}-${index}`;
 
@@ -162,7 +164,7 @@ export default function MobileMenu() {
                   <ListMenu
                     dept={dept}
                     data={menu}
-                    hasSubMenu={menu.subMenu}
+                    // hasSubMenu={menu.subCategories}
                     menuName={menuName}
                     key={menuName}
                     menuIndex={index}

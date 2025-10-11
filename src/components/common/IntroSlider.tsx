@@ -27,7 +27,7 @@ export default function CarouselSlider() {
             try {
                 setLoading(true);
                 const res = await http.get(
-                    "https://app.cirqlsync.com/syncing-application/syncapi/carousel/homepage-carousel?orgID=52"
+                    `${process.env.NEXT_PUBLIC_BASE_URL}/carousel/homepage-carousel?orgID=2`
                 );
                 setSlides(res.data?.data || []);
             } catch (err: any) {

@@ -1,4 +1,4 @@
-// import React, { useState, useEffect, useMemo } from "react";
+// import React, { useState, useEffect, useMemo, useRef } from "react";
 // import { useRouter } from "next/router";
 // import isEmpty from "lodash/isEmpty";
 // import { ROUTES } from "@utils/routes";
@@ -15,10 +15,116 @@
 // import { Product } from "@framework/types";
 // import Loading from "@components/common/Loading";
 
+// // Product Gallery Component with Zoom
+// const ProductGallery: React.FC<{
+//   gallery?: { image: string }[];
+//   mainImage?: string;
+// }> = ({ gallery, mainImage }) => {
+//   const [selectedImage, setSelectedImage] = useState(
+//     mainImage || gallery?.[0]?.image
+//   );
+//   const [isZoomed, setIsZoomed] = useState(false);
+//   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+//   const imageRef = useRef<HTMLDivElement | null>(null);
 
+//   const images = gallery && gallery.length > 0 ? gallery : [{ image: mainImage ?? "" }];
 
+//   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+//     if (!imageRef.current) return;
 
+//     const rect = imageRef.current.getBoundingClientRect();
+//     const x = ((e.clientX - rect.left) / rect.width) * 100;
+//     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
+//     setZoomPosition({ x, y });
+//   };
+
+//   return (
+//     <div className="flex-shrink-0 w-full lg:w-[430px]">
+//       {/* Thumbnails - Horizontal on mobile, Vertical on desktop */}
+//       <div className="flex lg:hidden gap-2 mb-3 overflow-x-auto pb-2">
+//         {images.map((item, idx) => (
+//           <button
+//             key={idx}
+//             onClick={() => setSelectedImage(item.image)}
+//             className={`relative w-16 h-16 flex-shrink-0 rounded overflow-hidden border-2 transition-all ${selectedImage === item.image
+//               ? "border-gray-900"
+//               : "border-gray-200 hover:border-gray-400"
+//               }`}
+//           >
+//             <img
+//               src={item.image}
+//               alt={`Thumbnail ${idx + 1}`}
+//               className="w-full h-full object-cover"
+//             />
+//           </button>
+//         ))}
+//       </div>
+
+//       <div className="hidden lg:flex gap-3">
+//         {/* Thumbnails - Desktop */}
+//         <div className="flex flex-col gap-2 w-20">
+//           {images.map((item, idx) => (
+//             <button
+//               key={idx}
+//               onClick={() => setSelectedImage(item.image)}
+//               className={`relative aspect-square rounded overflow-hidden border-2 transition-all ${selectedImage === item.image
+//                 ? "border-gray-900"
+//                 : "border-gray-200 hover:border-gray-400"
+//                 }`}
+//             >
+//               <img
+//                 src={item.image}
+//                 alt={`Thumbnail ${idx + 1}`}
+//                 className="w-full h-full object-cover"
+//               />
+//             </button>
+//           ))}
+//         </div>
+
+//         {/* Main Image - Desktop */}
+//         <div className="flex-1 relative bg-gray-50 rounded overflow-hidden">
+//           <div
+//             ref={imageRef}
+//             className="relative w-full aspect-square cursor-zoom-in"
+//             onMouseMove={handleMouseMove}
+//             onMouseEnter={() => setIsZoomed(true)}
+//             onMouseLeave={() => setIsZoomed(false)}
+//           >
+//             <img
+//               src={selectedImage}
+//               alt="Product"
+//               className="w-full h-full object-contain"
+//             />
+
+//             {isZoomed && (
+//               <div
+//                 className="absolute inset-0 pointer-events-none"
+//                 style={{
+//                   backgroundImage: `url(${selectedImage})`,
+//                   backgroundSize: "200%",
+//                   backgroundPosition: `${zoomPosition.x}% ${zoomPosition.y}%`,
+//                   backgroundRepeat: "no-repeat",
+//                 }}
+//               />
+//             )}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Main Image - Mobile (no zoom) */}
+//       <div className="lg:hidden relative bg-gray-50 rounded overflow-hidden">
+//         <div className="relative w-full aspect-square">
+//           <img
+//             src={selectedImage}
+//             alt="Product"
+//             className="w-full h-full object-contain"
+//           />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 // export default function ProductPopup() {
 //   const { modalData: { id }, closeModal, openCart } = useUI();
@@ -40,7 +146,6 @@
 //     enabled: !!id,
 //   });
 
-
 //   // Extract variations & prices
 //   const variations = getVariations(data?.variations || {});
 //   const prices = data?.prices || [];
@@ -58,7 +163,6 @@
 
 //   // Default selections
 //   useEffect(() => {
-//     // Default first color
 //     if (!attributes.colors && availableColors.length) {
 //       setAttributes(prev => ({
 //         ...prev,
@@ -66,7 +170,6 @@
 //       }));
 //     }
 
-//     // Default first size for selected color
 //     if (attributes.colors && availableSizes.length) {
 //       setAttributes(prev => ({
 //         ...prev,
@@ -96,7 +199,6 @@
 //     baseAmount: Number(data?.basePrice),
 //     currencyCode: "USD",
 //   });
-
 //   // Attribute selection
 //   const handleAttribute = (attr: any) => {
 //     setAttributes(prev => ({ ...prev, ...attr }));
@@ -112,11 +214,13 @@
 //       setViewCartBtn(true);
 //       toast.success("Item added successfully!");
 //     }, 500);
-
-//     const item = generateCartItem(data!, attributes);
+//    console.log("data", data,);
+//    console.log("attributes", attributes);
+//     const item = generateCartItem(data!, attributes,price);
+//     console.log("item", item);
 //     addItemToCart(item, quantity);
-//     console.log("cart item", item);
 //   };
+
 
 //   // Navigation
 //   const navigateToProductPage = () => {
@@ -129,18 +233,12 @@
 //   };
 
 //   if (isLoading || !data) return <Loading />;
+
 //   return (
 //     <div className="rounded-lg bg-white">
-//       <div className="flex flex-col lg:flex-row w-full md:w-[650px] lg:w-[960px] mx-auto overflow-hidden">
-//         {/* Product Image */}
-//         {/* <div className="flex-shrink-0 flex items-center justify-center w-full lg:w-[430px] max-h-[430px] lg:max-h-full overflow-hidden bg-gray-300">
-//           <img
-//             src={data.image || "/assets/placeholder/products/product-thumbnail.svg"}
-//             alt={data.name}
-//             className="lg:object-cover lg:w-full lg:h-full"
-//           />
-//         </div> */}
-
+//       <div className="flex flex-col lg:flex-row w-full md:w-[650px] lg:w-[960px] xl:w-[1100px] mx-auto p-12 overflow-hidden">
+//         {/* Product Gallery with Zoom */}
+//         <ProductGallery gallery={data.gallery} mainImage={data.image} />
 
 //         {/* Product Info */}
 //         <div className="flex flex-col p-5 md:p-8 w-full">
@@ -167,19 +265,23 @@
 //           </div>
 
 //           {/* Variations */}
-//           <ProductAttributes
-//             title="colors"
-//             attributes={availableColors}
-//             active={attributes.colors}
-//             onClick={handleAttribute}
-//           />
+//           {availableColors.length > 0 && (
+//             <ProductAttributes
+//               title="colors"
+//               attributes={availableColors}
+//               active={attributes.colors}
+//               onClick={handleAttribute}
+//             />
+//           )}
 
-//           <ProductAttributes
-//             title="sizes"
-//             attributes={availableSizes}
-//             active={attributes.sizes}
-//             onClick={handleAttribute}
-//           />
+//           {availableSizes.length > 0 && (
+//             <ProductAttributes
+//               title="sizes"
+//               attributes={availableSizes}
+//               active={attributes.sizes}
+//               onClick={handleAttribute}
+//             />
+//           )}
 
 //           {/* Quantity & Cart Buttons */}
 //           <div className="pt-2 md:pt-4">
@@ -218,7 +320,6 @@
 //     </div>
 //   );
 // }
-
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/router";
@@ -427,7 +528,7 @@ export default function ProductPopup() {
     setAttributes(prev => ({ ...prev, ...attr }));
   };
 
-  // Add to cart
+  // Add to cart with current price
   const addToCart = () => {
     if (!isEmpty(variations) && !Object.keys(attributes).length) return;
 
@@ -438,9 +539,10 @@ export default function ProductPopup() {
       toast.success("Item added successfully!");
     }, 500);
 
-    const item = generateCartItem(data!, attributes);
+    // Generate item with current price (selectedPrice is reactively updated)
+    const item = generateCartItem(data!, attributes, selectedPrice);
+    console.log("item", item);
     addItemToCart(item, quantity);
-
   };
 
   // Navigation
@@ -448,6 +550,7 @@ export default function ProductPopup() {
     closeModal();
     router.push(`${ROUTES.PRODUCT}/${data?.id || id}`);
   };
+
   const navigateToCartPage = () => {
     closeModal();
     setTimeout(() => openCart(), 300);

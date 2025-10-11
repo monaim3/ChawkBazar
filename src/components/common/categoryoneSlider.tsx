@@ -126,7 +126,9 @@ export default function CategoryoneSlider({ id }: any) {
     const swiperBreakpoints = {
         480: { slidesPerView: 2 },
         768: { slidesPerView: 3 },
-        1024: { slidesPerView: 4 },
+        1024: { slidesPerView: 3 },
+        1280: { slidesPerView: 3 },
+        1440: { slidesPerView: 4 },
     };
 
     return (
