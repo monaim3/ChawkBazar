@@ -1,10 +1,11 @@
 "use client"
 import Image from "next/image";
 import { useAllbanner } from "@framework/allbanner";
+import Loading from "./Loading";
 
 const FeatureBanner = () => {
     const { data, isLoading, error } = useAllbanner();
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <Loading />;
     if (error) return <div>Error loading banners</div>;
 
 

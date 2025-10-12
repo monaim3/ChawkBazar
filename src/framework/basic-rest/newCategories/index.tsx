@@ -9,6 +9,8 @@ const fetchCategories = async (): Promise<Category[]> => {
   return data.data;
 };
 
+
+
 export const useCategories = () => {
   return useQuery<Category[]>({
     queryKey: ["categories"],

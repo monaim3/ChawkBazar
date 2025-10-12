@@ -39,11 +39,7 @@ export default function Home() {
     <>
       <IntroSlider></IntroSlider>
       <FeaturesSection></FeaturesSection>
-      {/* <BannerBlock data={masonryBanner} /> */}
       <CategoriesSection></CategoriesSection>
-      {/* <Container>
-        <ProductsFlashSaleBlock date={"2025-12-01T01:02:03"} />
-      </Container> */}
       <NewArrivalSection />
       <BestSelling />
       <CartTray />

@@ -9,10 +9,8 @@ import { useUI } from "@contexts/ui.context";
 import { ROUTES } from "@utils/routes";
 import { useAddActiveScroll } from "@utils/use-add-active-scroll";
 import dynamic from "next/dynamic";
-import { useTranslation } from "next-i18next";
 import { FaRegUser } from "react-icons/fa";
 import { BiSolidPhoneCall } from "react-icons/bi";
-import { useSearchQuery } from "@framework/product/use-search";
 import SearchProduct from "@components/common/search-product";
 import Scrollbar from "@components/common/scrollbar";
 import SearchResultLoader from "@components/ui/loaders/search-result-loader";
@@ -36,8 +34,9 @@ const Header: React.FC = () => {
   useAddActiveScroll(siteHeaderRef);
   const { data: searchResults, isLoading } = useProducts(searchText);
 
-  const { data: categories = [], isLoading: isLoadingCategories } = useCategories();
+  const { data, isLoading: isLoadingCategories } = useCategories();
 
+  console.log("categories", data);
   function handleLogin() {
     setModalView("LOGIN_VIEW");
     return openModal();
@@ -71,7 +70,9 @@ const Header: React.FC = () => {
   if (isLoadingCategories) {
     return <Loading />
   }
-  const validCategories = categories.filter(cat => cat?.id && cat?.name);
+  const validCategories = Array.isArray(data)
+    ? data.filter(cat => cat?.id && cat?.name)
+    : [];
   return (
     <header
       id="siteHeader"
@@ -142,7 +143,7 @@ const Header: React.FC = () => {
                         {`No results found for "${searchText}"`}
                       </div>
                     )} */}
-                   
+
                     {isLoading ? (
                       <div className="p-4">
                         {Array.from({ length: 3 }).map((_, idx) => (
@@ -204,10 +205,12 @@ const Header: React.FC = () => {
       {/* Bottom Navigation Menu */}
       <div className="border-t border-gray-100 bg-white hidden lg:block">
         <div className="container mx-auto px-4 md:px-8 lg:px-6 ">
-          <HeaderMenu
-            data={validCategories}
-            className="flex justify-center items-center h-12 lg:h-14"
-          />
+          {validCategories.length > 0 && (
+            <HeaderMenu
+              data={validCategories}
+              className="flex justify-center items-center h-12 lg:h-14"
+            />
+          )}
         </div>
       </div>
     </header>

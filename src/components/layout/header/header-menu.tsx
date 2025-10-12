@@ -1,9 +1,9 @@
-import Link from '@components/ui/link';
 import { FaChevronDown } from 'react-icons/fa';
 import MegaMenu from '@components/ui/mega-menu';
 import classNames from 'classnames';
 import ListMenu from '@components/ui/list-menu';
 import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
 
 interface MenuProps {
   data: any;
@@ -11,17 +11,22 @@ interface MenuProps {
 }
 
 const HeaderMenu: React.FC<MenuProps> = ({ data, className }) => {
+  console.log("data", data);
   const { t } = useTranslation('menu');
   return (
-    <nav className={classNames(`headerMenu flex w-full relative`, className)}>
+    <nav className={classNames(`headerMenu flex w-full relative gap-10`, className)}>
       {data?.map((item: any) => (
         <div
-          className={`menuItem group cursor-pointer py-7 ${item.subCategories ? 'relative' : ''
+          className={`menuItem group cursor-pointer py-7 ${item?.subCategories ? 'relative' : ''
             }`}
-          key={item.id}
+          key={item?.id}
         >
           <Link
-            href={item?.slug || '/'}
+            href={
+              item?.id && item?.name
+                ? `/search?category=${item.id}&categoryName=${item.name.toLowerCase()}`
+                : "#"
+            }
             className="relative inline-flex items-center px-3 py-2 text-sm font-normal xl:text-base text-heading xl:px-4 group-hover:text-black"
           >
             {t(item?.name)}
@@ -31,7 +36,6 @@ const HeaderMenu: React.FC<MenuProps> = ({ data, className }) => {
               </span>
             )}
           </Link>
-
           {/* {item?.columns && Array.isArray(item.columns) && (
             <MegaMenu columns={item.columns} />
           )} */}
@@ -43,11 +47,12 @@ const HeaderMenu: React.FC<MenuProps> = ({ data, className }) => {
                   const menuName: string = `sidebar-menu-${dept}-${index}`;
 
                   return (
+                   
                     <ListMenu
                       dept={dept}
                       data={menu}
                       hasSubMenu={menu.subMenu}
-                      menuName={menuName}
+                      // menuName={menuName}
                       key={menuName}
                       menuIndex={index}
                     />

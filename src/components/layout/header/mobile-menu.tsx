@@ -118,15 +118,15 @@ const ListMenu = ({
   menuIndex,
   className = '',
 }: any) =>
-  data?.name ? (  // ✅ Check if name exists and is truthy
+  data?.name ? (  
     <li className={`mb-0.5 ${className}`}>
       <div className="relative flex items-center justify-between">
         <Link
-          href={data.slug ? `/${data.slug}` : '/'}  // ✅ Safe slug check
+          href={data.slug ? `/${data.slug}` : '/'}  
           className="w-full text-[15px] menu-item relative py-3 ltr:pl-5 rtl:pr-5 ltr:md:pl-6 rtl:md:pr-6 ltr:pr-4 rtl:pl-4 transition duration-300 ease-in-out"
         >
           <span className="block w-full" onClick={closeSidebar}>
-            {t(data.name || 'menu')}  // ✅ Fallback value
+            {t(data.name || 'menu')}  
           </span>
         </Link>
         {hasSubMenu && (
@@ -142,7 +142,7 @@ const ListMenu = ({
           </div>
         )}
       </div>
-      {hasSubMenu && data?.subCategories && (  // ✅ Check subCategories exists
+      {hasSubMenu && data?.subCategories && (  
         <SubMenu
           dept={dept}
           data={data.subCategories}
@@ -151,7 +151,7 @@ const ListMenu = ({
         />
       )}
     </li>
-  ) : null;  // ✅ Return null if name doesn't exist
+  ) : null;  // Return null if name doesn't exist
   const SubMenu = ({ dept, data, toggle, menuIndex }: any) => {
     if (!toggle) {
       return null;
