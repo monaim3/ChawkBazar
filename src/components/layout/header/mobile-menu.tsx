@@ -122,7 +122,11 @@ const ListMenu = ({
     <li className={`mb-0.5 ${className}`}>
       <div className="relative flex items-center justify-between">
         <Link
-          href={data.slug ? `/${data.slug}` : '/'}  
+           href={
+              data?.id && data?.name
+                ? `/search?category=${data.id}&categoryName=${data.name.toLowerCase()}`
+                : "#"
+            }
           className="w-full text-[15px] menu-item relative py-3 ltr:pl-5 rtl:pr-5 ltr:md:pl-6 rtl:md:pr-6 ltr:pr-4 rtl:pl-4 transition duration-300 ease-in-out"
         >
           <span className="block w-full" onClick={closeSidebar}>
