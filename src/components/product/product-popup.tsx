@@ -541,7 +541,6 @@ export default function ProductPopup() {
 
     // Generate item with current price (selectedPrice is reactively updated)
     const item = generateCartItem(data!, attributes, selectedPrice);
-    console.log("item", item);
     addItemToCart(item, quantity);
   };
 

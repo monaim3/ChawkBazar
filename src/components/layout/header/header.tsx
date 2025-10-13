@@ -36,7 +36,6 @@ const Header: React.FC = () => {
 
   const { data, isLoading: isLoadingCategories } = useCategories();
 
-  console.log("categories", data);
   function handleLogin() {
     setModalView("LOGIN_VIEW");
     return openModal();

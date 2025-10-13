@@ -116,7 +116,7 @@ const ProductCard = ({ product }: { product: any }) => {
 export default function CategoryoneSlider({ id }: any) {
     const { data, error } = useProductsQuery({ limit: 10, id } as any);
 
-    console.log("categoryOneSlider", data?.pages?.[0]?.data);
+
     const dataList = data?.pages?.[0]?.data;
 
     if (!dataList || dataList.length === 0) {

@@ -11,7 +11,7 @@ interface MenuProps {
 }
 
 const HeaderMenu: React.FC<MenuProps> = ({ data, className }) => {
-  console.log("data", data);
+
   const { t } = useTranslation('menu');
   return (
     <nav className={classNames(`headerMenu flex w-full relative gap-10`, className)}>

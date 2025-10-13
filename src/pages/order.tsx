@@ -5,15 +5,17 @@ import PageHeader from "@components/ui/page-header";
 import OrderInformation from "@components/order/order-information";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { GetStaticProps } from "next";
+import OrderSuccess from "@components/common/fakeOrder";
 
 export default function Order() {
 	return (
 		<>
 			<PageHeader pageHeader="text-page-order" />
-			<Container>
-				<OrderInformation />
-				<Subscription />
-			</Container>
+
+			{/* <OrderInformation /> */}
+			<OrderSuccess />
+			<Subscription />
+
 		</>
 	);
 }

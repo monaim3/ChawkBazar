@@ -41,7 +41,7 @@ const Subscription: React.FC<Props> = ({
   }
   return (
     <div
-      className={` flex flex-col xl:flex-row justify-center xl:justify-between items-center rounded-lg bg-gray-200 container mx-auto px-4 md:px-8 lg:px-8 py-10`}
+      className={` flex flex-col xl:flex-row justify-center xl:justify-between items-center rounded-lg bg-gray-200 container mx-auto px-4 md:px-8 lg:px-8 py-10 mb-6 mt-6`}
     >
       <div className="lg:-mt-2 xl:-mt-0.5 text-center ltr:xl:text-left rtl:xl:text-right mb-7 md:mb-8 lg:mb-9 xl:mb-0">
         <Text
