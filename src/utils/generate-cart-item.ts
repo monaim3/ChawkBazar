@@ -108,7 +108,7 @@ export function generateCartItem(item: Item, attributes: object, amount?: number
 
   // Normalize price - use amount if provided, otherwise fallback to other prices
   let price: number;
-  
+
   if (amount !== undefined && amount !== null) {
     price = Number(amount);
   } else if (sale_price) {

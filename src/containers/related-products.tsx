@@ -8,7 +8,7 @@ import { useProductsQuery } from "@framework/product/get-all-products";
 interface ProductsProps {
 	sectionHeading: string;
 	className?: string;
-	slug?: number;
+	slug?: any;
 }
 
 const RelatedProducts: React.FC<ProductsProps> = ({
@@ -43,9 +43,9 @@ const RelatedProducts: React.FC<ProductsProps> = ({
 						<ProductCard
 							key={`product--key${product.id}`}
 							product={product}
-							imgWidth={340}
-							imgHeight={440}
-							variant="grid"
+						// imgWidth={340}
+						// imgHeight={440}
+						// variant="grid"
 						/>
 					))
 				)}

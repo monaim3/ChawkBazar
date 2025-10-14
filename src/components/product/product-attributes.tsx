@@ -56,11 +56,11 @@ interface Props {
   className?: string;
   title: string;
   attributes: {
-    id?: number;
+    id?: string | number;
     value: string;
     colorCode?: string; // optional for colors
   }[];
-  active: string;
+  active: string | null | undefined
   onClick: any;
 }
 

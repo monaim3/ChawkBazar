@@ -24,6 +24,7 @@ type GalleryItem = {
 };
 
 type ProductData = {
+  id: number;
   name: string;
   description: string;
   image: string;
@@ -78,8 +79,8 @@ const ProductGalleryComponent: React.FC<ProductGalleryProps> = ({
             key={idx}
             onClick={() => setSelectedImage(item.image)}
             className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${selectedImage === item.image
-                ? "border-gray-900"
-                : "border-gray-200 hover:border-gray-400"
+              ? "border-gray-900"
+              : "border-gray-200 hover:border-gray-400"
               }`}
           >
             <img
@@ -95,7 +96,7 @@ const ProductGalleryComponent: React.FC<ProductGalleryProps> = ({
       <div className="relative bg-gray-50 rounded-lg overflow-hidden">
         <div
           ref={imageRef}
-          className="relative w-full aspect-square cursor-zoom-in"
+          className="relative w-full aspect-square cursor-zoom-in "
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsZoomed(true)}
           onMouseLeave={() => setIsZoomed(false)}
@@ -103,7 +104,7 @@ const ProductGalleryComponent: React.FC<ProductGalleryProps> = ({
           <img
             src={selectedImage}
             alt="Product"
-            className="w-full h-full object-contain"
+            className="w-full h-full object-cover"
           />
 
           {isZoomed && (
@@ -160,27 +161,27 @@ const ProductSingleDetails = () => {
   // Sizes for selected color
   const availableSizes = useMemo(() => {
     if (!attributes.colors) return [];
-    const colorObj = prices.find((p) => p.color === attributes.colors);
+    const colorObj = prices.find(p => p.color === attributes.colors);
     if (!colorObj) return [];
-    return colorObj.sizes.map((s) => ({ id: s.size_id, value: s.size }));
+    return colorObj.sizes.map(s => ({ id: s.size_id, value: s.size }));
   }, [attributes.colors, prices]);
 
   // Default selections
   useEffect(() => {
     if (!attributes.colors && availableColors.length) {
-      setAttributes((prev) => ({
+      setAttributes(prev => ({
         ...prev,
         colors: availableColors[0].value,
       }));
     }
 
     if (attributes.colors && availableSizes.length) {
-      setAttributes((prev) => ({
+      setAttributes(prev => ({
         ...prev,
         sizes: availableSizes[0].value,
       }));
     } else if (attributes.colors) {
-      setAttributes((prev) => ({ ...prev, sizes: "" }));
+      setAttributes(prev => ({ ...prev, sizes: "" }));
     }
   }, [availableColors, attributes.colors, availableSizes]);
 
@@ -188,13 +189,12 @@ const ProductSingleDetails = () => {
   const selectedPrice = useMemo(() => {
     if (!attributes.colors) return Number(data?.finalPrice);
 
-    const colorObj = prices.find((p) => p.color === attributes.colors);
+    const colorObj = prices.find(p => p.color === attributes.colors);
     if (!colorObj) return Number(data?.finalPrice);
 
-    if (!attributes.sizes)
-      return Number(colorObj.sizes[0]?.price ?? data?.finalPrice);
+    if (!attributes.sizes) return Number(colorObj.sizes[0]?.price ?? data?.finalPrice);
 
-    const sizeObj = colorObj.sizes.find((s) => s.size === attributes.sizes);
+    const sizeObj = colorObj.sizes.find(s => s.size === attributes.sizes);
     return Number(sizeObj?.price ?? data?.finalPrice);
   }, [attributes.colors, attributes.sizes, prices, data?.finalPrice]);
 
@@ -206,11 +206,11 @@ const ProductSingleDetails = () => {
   });
 
   // Attribute selection
-  const handleAttribute = (attr: Partial<Attributes>) => {
-    setAttributes((prev) => ({ ...prev, ...attr }));
+  const handleAttribute = (attr: any) => {
+    setAttributes(prev => ({ ...prev, ...attr }));
   };
 
-  // Add to cart
+  // Add to cart with current price
   const addToCart = () => {
     if (!isEmpty(variations) && !Object.keys(attributes).length) return;
 
@@ -221,11 +221,9 @@ const ProductSingleDetails = () => {
       toast.success("Item added successfully!");
     }, 500);
 
-    if (data) {
-      const item = generateCartItem(data, attributes);
-      addItemToCart(item, quantity);
-
-    }
+    // Generate item with current price (selectedPrice is reactively updated)
+    const item = generateCartItem(data!, attributes, selectedPrice);
+    addItemToCart(item, quantity);
   };
 
   if (isLoading || !data) return <Loading />;

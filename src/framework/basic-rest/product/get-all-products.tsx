@@ -1,5 +1,63 @@
+// import { Product, ProductResponse, QueryOptionsTypes } from "@framework/types";
+// import { useInfiniteQuery, QueryFunctionContext, InfiniteData } from "@tanstack/react-query";
+// import http from "@framework/utils/http";
+// import { API_ENDPOINTS } from "@framework/utils/api-endpoints";
+
+// type PaginatedProduct = {
+// 	data: Product[];
+// 	paginatorInfo: ProductResponse["pagination"];
+// };
+
+// const fetchProducts = async (
+// 	context: QueryFunctionContext<[string, QueryOptionsTypes], number>
+// ): Promise<PaginatedProduct> => {
+// 	const { pageParam = 0, queryKey } = context;
+// 	const options: QueryOptionsTypes = queryKey[1] || {};
+// 	const { limit = 10, ...rest } = options;
+
+// 	// Convert all values to strings
+// 	const params = new URLSearchParams({
+// 		offset: String(pageParam),
+// 		limit: String(limit),
+// 		...Object.fromEntries(
+// 			Object.entries(rest).map(([key, value]) => [key, String(value)])
+// 		),
+// 	});
+
+// 	const { data } = await http.get<ProductResponse>(
+// 		// `${process.env.NEXT_PUBLIC_BASE_URL}/product/product-all?orgID=2&branchID=21&${params.toString()}`
+// 		`${process.env.NEXT_PUBLIC_BASE_URL}/product/product-all?orgID=2&branchID=21&${params.toString()}`
+
+// 	);
+
+// 	return {
+// 		data: data.data,
+// 		paginatorInfo: data.pagination,
+// 	};
+// };
+
+
+// const useProductsQuery = (options: QueryOptionsTypes = {}) => {
+// 	return useInfiniteQuery<
+// 		PaginatedProduct,
+// 		Error,
+// 		// PaginatedProduct,
+// 		InfiniteData<PaginatedProduct>,
+// 		[string, QueryOptionsTypes]
+// 	>({
+// 		queryKey: [API_ENDPOINTS.PRODUCTS, options],
+// 		queryFn: fetchProducts,
+// 		getNextPageParam: ({ paginatorInfo }) => {
+// 			const nextOffset = paginatorInfo.offset + paginatorInfo.limit;
+// 			return nextOffset < paginatorInfo.total ? nextOffset : undefined;
+// 		},
+// 	});
+// };
+
+// export { useProductsQuery, fetchProducts };
+
 import { Product, ProductResponse, QueryOptionsTypes } from "@framework/types";
-import { useInfiniteQuery, QueryFunctionContext } from "@tanstack/react-query";
+import { useInfiniteQuery, InfiniteData } from "@tanstack/react-query";
 import http from "@framework/utils/http";
 import { API_ENDPOINTS } from "@framework/utils/api-endpoints";
 
@@ -8,10 +66,7 @@ type PaginatedProduct = {
 	paginatorInfo: ProductResponse["pagination"];
 };
 
-const fetchProducts = async (
-	context: QueryFunctionContext<[string, QueryOptionsTypes], number>
-): Promise<PaginatedProduct> => {
-	const { pageParam = 0, queryKey } = context;
+const fetchProducts = async ({ pageParam = 0, queryKey }: any): Promise<PaginatedProduct> => {
 	const options: QueryOptionsTypes = queryKey[1] || {};
 	const { limit = 10, ...rest } = options;
 
@@ -25,7 +80,7 @@ const fetchProducts = async (
 	});
 
 	const { data } = await http.get<ProductResponse>(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/product/product-all?orgID=2&branchID=21${params.toString()}`
+		`${process.env.NEXT_PUBLIC_BASE_URL}/product/product-all?orgID=2&branchID=21&${params.toString()}`
 	);
 
 	return {
@@ -34,19 +89,14 @@ const fetchProducts = async (
 	};
 };
 
-
 const useProductsQuery = (options: QueryOptionsTypes = {}) => {
-	return useInfiniteQuery<
-		PaginatedProduct,
-		Error,
-		PaginatedProduct,
-		[string, QueryOptionsTypes]
-	>({
+	return useInfiniteQuery({
 		queryKey: [API_ENDPOINTS.PRODUCTS, options],
 		queryFn: fetchProducts,
-		getNextPageParam: ({ paginatorInfo }) => {
-			const nextOffset = paginatorInfo.offset + paginatorInfo.limit;
-			return nextOffset < paginatorInfo.total ? nextOffset : undefined;
+		initialPageParam: 0,
+		getNextPageParam: (lastPage) => {
+			const nextOffset = lastPage.paginatorInfo.offset + lastPage.paginatorInfo.limit;
+			return nextOffset < lastPage.paginatorInfo.total ? nextOffset : undefined;
 		},
 	});
 };

@@ -14,7 +14,7 @@ import { ROUTES } from "@utils/routes";
 export type GenericProduct = {
     id: number | string;
     name: string;
-    description?: string;
+    description?: string | null;
     image: string;
     basePrice?: string | number;
     finalPrice?: string | number;
