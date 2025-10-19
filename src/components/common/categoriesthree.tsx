@@ -19,7 +19,7 @@ const CategoriesThree = () => {
                                 <img
                                     src={src}
                                     alt="Category"
-                                    className="w-full h-[400px] object-cover"
+                                    className="w-full h-[300px] md:h-[600px] md:w-[400px] object-cover"
                                 />
                             </div>
                         </div>

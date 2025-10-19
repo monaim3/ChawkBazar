@@ -2,11 +2,11 @@ import { useCategories } from "@framework/newCategories";
 import Loading from "./Loading";
 import CategoryoneSlider from "./categoryoneSlider";
 
-const CategoriesTwo = () => {
+const Categoriesfour = () => {
     const { data: categories = [], isLoading } = useCategories();
     if (isLoading) return <Loading />
-    const id = categories[1]?.id
-    const src = categories[1]?.image
+    const id = categories[3]?.id
+    const src = categories[3]?.image
 
     return (
         <section className="py-8">
@@ -32,4 +32,4 @@ const CategoriesTwo = () => {
         </section>
     );
 }
-export default CategoriesTwo;
+export default Categoriesfour;

@@ -14,7 +14,7 @@ const HeaderMenu: React.FC<MenuProps> = ({ data, className }) => {
 
   const { t } = useTranslation('menu');
   return (
-    <nav className={classNames(`headerMenu flex w-full relative gap-10`, className)}>
+    <nav className={classNames(`headerMenu flex w-full relative lg:gap-0 2xl:gap-10`, className)}>
       {data?.map((item: any) => (
         <div
           className={`menuItem group cursor-pointer py-7 ${item?.subCategories ? 'relative' : ''
@@ -27,7 +27,7 @@ const HeaderMenu: React.FC<MenuProps> = ({ data, className }) => {
                 ? `/search?category=${item.id}&categoryName=${item.name.toLowerCase()}`
                 : "#"
             }
-            className="relative inline-flex items-center px-3 py-2 text-sm font-normal xl:text-base text-heading xl:px-4 group-hover:text-black"
+            className="relative inline-flex items-center px-3 py-2 text-[10px]   lg:text-sm font-normal  xl:text-base text-heading xl:px-4 group-hover:text-black"
           >
             {t(item?.name)}
             {(item?.subCategories) && (
@@ -47,7 +47,7 @@ const HeaderMenu: React.FC<MenuProps> = ({ data, className }) => {
                   const menuName: string = `sidebar-menu-${dept}-${index}`;
 
                   return (
-                   
+
                     <ListMenu
                       dept={dept}
                       data={menu}

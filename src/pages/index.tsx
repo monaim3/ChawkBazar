@@ -33,6 +33,7 @@ import Categoriesone from "@components/common/categoriesone";
 import CategoriesTwo from "@components/common/categoriestwo";
 import CategoriesThree from "@components/common/categoriesthree";
 import Video from "@components/common/video";
+import Categoriesfour from "@components/common/categoriesfour";
 
 export default function Home() {
   return (
@@ -46,8 +47,10 @@ export default function Home() {
       <Video></Video>
       <FeatureBanner />
       {/* <BannerSliderBlock /> */}
-      {/* <CategoriesThree></CategoriesThree> */}
+
       <Hero></Hero>
+      <CategoriesThree></CategoriesThree>
+      <Categoriesfour></Categoriesfour>
       <Threebanner></Threebanner>
       <Categoriesone></Categoriesone>
       <CategoriesTwo></CategoriesTwo>
